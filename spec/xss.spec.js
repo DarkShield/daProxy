@@ -12,6 +12,25 @@ describe('XSS inspector', function() {
     expect(typeof(xss.inspectors[0])).toBe('object');
   });
 
+  it('should have an inspect property that is a function', function() {
+    expect(typeof(xss.inspect)).toBe('function');
+  });
+
+  describe('inspect function', function() {
+
+    it('should return an inspector match object when called', function() {
+      var ret = xss.inspect();
+      expect(typeof(ret)).toBe('object');
+      expect(ret.attack).toBeDefined();
+      expect(typeof(ret.attack)).toBe('boolean');
+      expect(ret.id).toBeDefined();
+      expect(ret.matches).toBeDefined();
+      expect(ret.score).toBeDefined();
+      expect(typeof(ret.score)).toBe('number');
+    });
+
+  });
+
   describe('All XSS Inspectors', function() {
 
     for(var x=0; x<xss.inspectors.length; x++) {
@@ -30,8 +49,7 @@ describe('XSS inspector', function() {
     }
   });
 
-  describe('The First XSS Inspector', function() {
-
+  describe('Script Tag XSS Inspector', function() {
     var inspector = xss.inspectors[0];
 
     describe('The Regex', function() {
@@ -43,9 +61,40 @@ describe('XSS inspector', function() {
       it('should NOT match on this group of tests', function() {
         expect(inspector.regex.test('http://www.example.com')).not.toBeTruthy();
       });
-
     });  
+  });
 
+  describe('On Event XSS Inspector', function() {
+
+    var inspector = xss.inspectors[1];
+
+    describe('The Regex', function() {
+
+      it('should match when a parameter contains an on event', function() {
+        expect(inspector.regex.test('http://www.example.com?q="onload=prompt();')).toBeTruthy();
+      });
+
+      it('should NOT match on this group of tests', function() {
+        expect(inspector.regex.test('http://www.example.com')).not.toBeTruthy();
+      });
+    });
+  });
+
+  describe('Javascript URI XSS Inspector', function() {
+
+    var inspector = xss.inspectors[2];
+
+    describe('The Regex', function() {
+
+      it('should match when a parameter contains a javascript URI', function() {
+        expect(inspector.regex.test('http://www.example.com?q=javascript:prompt()')).toBeTruthy();
+      });
+
+      it('should NOT match on this group of tests', function() {
+        expect(inspector.regex.test('http://www.example.com?q=javascript')).not.toBeTruthy();
+      });
+
+    });
   });
 
 });
