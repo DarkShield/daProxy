@@ -25,7 +25,10 @@ describe('Inspect Function', function() {
     var reqObj = {url: 'http://www.example.com?q=<script>', body: ''};
     var result = inspect(reqObj, xss);
 
+    expect(result.type).toBe('XSS');
+    expect(result.ids[0]).toBe(1);
     expect(result.matches[0][0]).toBe('<script>');
+    expect(result.score).toBe(10);
   });
 
 });
