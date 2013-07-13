@@ -17,14 +17,22 @@ describe('Attack check & DB write', function() {
     expect(db.requestWriter).toHaveBeenCalled();
   });
 
-  it('builds correct reqObj when attack is present', function() {
+  it('builds correct reqObj when XSS attack is present', function() {
     var reqObj = {url: 'http://www.example.com/q=<script>', body: ''};
     spyOn(db, 'requestWriter');
 
     attack.check(reqObj);
-    console.log(reqObj);
     expect(reqObj.attacks.length).not.toEqual(0);
     expect(db.requestWriter).toHaveBeenCalled();
-
   });
+
+  it('builds correct reqObj when SQL attack is present', function() {
+    var reqObj = {url: 'http://www.example.com/q=1--', body: ''};
+    spyOn(db, 'requestWriter');
+
+    attack.check(reqObj);
+    expect(reqObj.attacks.length).not.toEqual(0);
+    expect(db.requestWriter).toHaveBeenCalled();
+  });
+
 });
