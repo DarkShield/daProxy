@@ -1,5 +1,6 @@
 var inspect = require('../lib/waf/inspectors/inspect');
 var xss = require('../lib/waf/inspectors/xss');
+var sqli = require('../lib/waf/inspectors/sqli');
 
 describe('Inspect Function', function() {
 
@@ -29,6 +30,16 @@ describe('Inspect Function', function() {
     expect(result.ids[0]).toBe(1);
     expect(result.matches[0][0]).toBe('<script>');
     expect(result.score).toBe(10);
+  });
+
+  it('should return a match object when passed a sql comment character', function() {
+    var reqObj = {url: 'http://www.example.com?q=1--', body: ''};
+    var result = inspect(reqObj, sqli);
+
+    expect(result.type).toBe('SQLi');
+    expect(result.ids[0]).toBe(1);
+    expect(result.matches[0][0]).toBe('=1--');
+    expect(result.score).toBe(1);
   });
 
 });
