@@ -35,4 +35,13 @@ describe('Attack check & DB write', function() {
     expect(db.requestWriter).toHaveBeenCalled();
   });
 
+  it('builds correct reqObj when Dir Trav attack is present', function() {
+    var reqObj = {url: 'http://www.example.com/../', body: ''};
+    spyOn(db, 'requestWriter');
+
+    attack.check(reqObj);
+    expect(reqObj.attacks.length).not.toEqual(0);
+    expect(db.requestWriter).toHaveBeenCalled();
+  });
+
 });
