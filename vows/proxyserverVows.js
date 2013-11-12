@@ -47,7 +47,8 @@ vows.describe('Proxy').addBatch({
             "urbanhydro.org/?test='OR+1=1": respondsWith(200),
             'supercroppers.com/wizbangs.php': respondsWith(301),
             'www.supercroppers.com':respondsWith(200),
-            'urbanhydro.org/?test=<script>': respondsWith(200)
+            'urbanhydro.org/?test=<script>': respondsWith(200),
+            'urbanhydro.org/jimmie': respondsWithPOST(404, '<script></script>')
         }
     }
 }).export(module);
@@ -67,6 +68,23 @@ function respondsWith(code){
     context['we get a ' + code + ' response code'] = assertStatus(code);
     return context;
 }
+function respondsWithPOST(code, body){
+  var context = {
+    topic: function(){
+      var url = this.context.name;
+      request({
+        method: 'POST',
+        uri: 'http://'+ url,
+        body: body,
+        proxy: 'http://localhost:8080',
+        followRedirect: false
+      }, this.callback);
+    }
+  };
+  context['we get a ' + code + ' response code'] = assertStatus(code);
+  return context;
+}
+
 
 function assertStatus(code) {
     return function (e, res) {
