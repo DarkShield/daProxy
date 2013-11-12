@@ -5,12 +5,9 @@
   , "private": true
   , "author": "Mattjay & ProZachJ"
   , "dependencies": {
-    "mongoose": "latest"
-    , "vows": "latest"
-    , "mitm-proxy": "0.0.1"
-    , "http-proxy": "latest"
-    , "fusker": "latest"
-    , "connect": "latest"
-    , "bcrypt": "latest"
+    "mongoose": "3.8.0"
+    , "vows": "0.7.0"
+    , "mitm-proxy": "latest"
+    , "connect": "2.11.0"
   }
 }
