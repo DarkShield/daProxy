@@ -1,16 +1,14 @@
 {
-    "name": "Vice"
+    "name": "DarkShieldProxyServer"
   , "description": "Top Secret"
   , "version": "0.0.1"
   , "private": true
   , "author": "Mattjay & ProZachJ"
   , "dependencies": {
-    "mongoose": "latest"
-    , "vows": "latest"
+      "mongoose": "3.8.0"
+    , "vows": "0.7.0"
     , "mitm-proxy": "0.0.1"
-    , "http-proxy": "latest"
-    , "fusker": "latest"
-    , "connect": "latest"
-    , "bcrypt": "latest"
+    , "connect": "2.11.0"
+    , "request": "latest"
   }
 }
