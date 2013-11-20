@@ -6,7 +6,8 @@ var server,
     port = 8080,
     verbos = true;
 var mongoose = require('mongoose');
-mongoose.connect('10.192.198.253', 'vicetest');
+var Host = require('../lib/hostSchema')
+mongoose.connect('localhost', 'vicetest');
 
 
 vows.describe('Proxy').addBatch({
@@ -17,7 +18,7 @@ vows.describe('Proxy').addBatch({
         }
     },
     'after calling the function':{
-        topic: function(){return mitmproxy({proxy_port: port, verbose: verbos})},
+        topic: function(){return mitmproxy({proxy_port: 8080, verbose: true, hosts: {urbanhydroorg:'enabled', wwwurbanhydroorg: 'enabled', wwwsupercropperscom: 'enabled', supercropperscom:'enabled', wwwyourbrainprojectcom:'enabled'}})},
         'we get an object': function(proxies){
             assert.isObject(proxies);
         },
@@ -42,10 +43,15 @@ vows.describe('Proxy').addBatch({
             'urbanhydro.org': respondsWith(200),
             'www.urbanhydro.org/?test=<script>': respondsWith(301),
             'www.yourbrainproject.com': respondsWith(200),
-	    //'supercroppers.com/testing/directory/../test': respondsWith(301),
+	          'supercroppers.com/testing/directory/../test': respondsWith(301),
+            "urbanhydro.org/?test='OR+1=1": respondsWith(200),
             'supercroppers.com/wizbangs.php': respondsWith(301),
             'www.supercroppers.com':respondsWith(200),
-            //'urbanhydro.org/?test=<script>': respondsWith(404)
+            'urbanhydro.org/?test=<script>as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;': respondsWith(200),
+            'www.google.com': respondsWith(404),
+            'urbanhydro.org/?test=<script>': respondsWith(200),
+            'urbanhydro.org/jimmie': respondsWithPOST(404, '<script></script>'),
+            'urbanhydro.org/jimmie': respondsWithPOST(404, '<script>as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwej</script>')
         }
     }
 }).export(module);
@@ -65,6 +71,23 @@ function respondsWith(code){
     context['we get a ' + code + ' response code'] = assertStatus(code);
     return context;
 }
+function respondsWithPOST(code, body){
+  var context = {
+    topic: function(){
+      var url = this.context.name;
+      request({
+        method: 'POST',
+        uri: 'http://'+ url,
+        body: body,
+        proxy: 'http://localhost:8080',
+        followRedirect: false
+      }, this.callback);
+    }
+  };
+  context['we get a ' + code + ' response code'] = assertStatus(code);
+  return context;
+}
+
 
 function assertStatus(code) {
     return function (e, res) {
