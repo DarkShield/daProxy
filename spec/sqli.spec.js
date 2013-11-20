@@ -12,25 +12,6 @@ describe('SQLi inspector', function(){
     expect(typeof(sqli.inspectors[0])).toBe('object');
   });
 
-  it('should have an inspect property that is a function', function(){
-    expect(typeof(sqli.inspect)).toBe('function');
-  });
-
-  describe('inspect', function(){
-    
-    it('should return an inspector match object when called', function(){
-      var ret = sqli.inspect();
-      expect(typeof(ret)).toBe('object');
-      expect(ret.attack).toBeDefined();
-      expect(typeof(ret.attack)).toBe('boolean');
-      expect(ret.id).toBeDefined();
-      expect(ret.matches).toBeDefined();
-      expect(ret.score).toBeDefined();
-      expect(typeof(ret.score)).toBe('number');
-    });
-    
-  });
-
   describe('All SQLi Inspectors', function(){	  
     
     for(var x=0;x<sqli.inspectors.length;x++){
@@ -38,9 +19,9 @@ describe('SQLi inspector', function(){
       
       it('should have id, name, regex and score properties', function(){
         expect(inspector.id).toBeDefined();
-	expect(inspector.name).toBeDefined();
-	expect(inspector.regex).toBeDefined();
-	expect(inspector.score).toBeDefined();      
+	      expect(inspector.name).toBeDefined();
+	      expect(inspector.regex).toBeDefined();
+	      expect(inspector.score).toBeDefined();
       });
 
       it('should have a regex property that is a valid regular expression', function(){
@@ -59,25 +40,25 @@ describe('SQLi inspector', function(){
         expect(inspector.regex.test('http://www.example.com?q=%27')).toBeTruthy();
       	expect(inspector.regex.test('http://www.example.com?q=test&q=%27')).toBeTruthy();
         expect(inspector.regex.test('http://www.example.com?q=test\'')).toBeTruthy();
-	expect(inspector.regex.test('http://www.example.com?q=1\'')).toBeTruthy();
-	expect(inspector.regex.test('http://www.example.com/test%3D\'')).toBeTruthy();
+	      expect(inspector.regex.test('http://www.example.com?q=1\'')).toBeTruthy();
+	      expect(inspector.regex.test('http://www.example.com/test%3D\'')).toBeTruthy();
       });
       
       it('should match when a parameter value contains a sql comment character', function(){
-	expect(inspector.regex.test('http://www.example.com?q=1--')).toBeTruthy();
+	      expect(inspector.regex.test('http://www.example.com?q=1--')).toBeTruthy();
       });
 
       it('should match when a parameter value contains a unitary operator', function(){     
-	expect(inspector.regex.test('http://www.example.com?q=%3B')).toBeTruthy();
+	      expect(inspector.regex.test('http://www.example.com?q=%3B')).toBeTruthy();
       });
 
       it('should match when a parameter value contains a SQL statement terminator', function(){
-	expect(inspector.regex.test('http://www.example.com?q=;')).toBeTruthy();
+	      expect(inspector.regex.test('http://www.example.com?q=;')).toBeTruthy();
       });          
 
       it('should not match this group of shit test cases', function(){
-	expect(inspector.regex.test('http://www.example.com?q=%2527')).not.toBeTruthy()
-	expect(inspector.regex.test('http://www.example.com?q=test')).not.toBeTruthy();
+	      expect(inspector.regex.test('http://www.example.com?q=%2527')).not.toBeTruthy()
+	      expect(inspector.regex.test('http://www.example.com?q=test')).not.toBeTruthy();
         expect(inspector.regex.test('http://www.example.com?q\'=test')).not.toBeTruthy();
         expect(inspector.regex.test('http://www.example.com/test\'')).not.toBeTruthy();
       });
