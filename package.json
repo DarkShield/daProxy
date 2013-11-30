@@ -11,6 +11,8 @@
   , "devDependencies": {
       "vows": "0.7.0"
    , "jasmine-node": "1.10.0"
-}
-
+  }
+  , "script":{
+      "start": "node ./lib/startproxy.js"
+  }
 }
