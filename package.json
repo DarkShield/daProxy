@@ -7,8 +7,6 @@
   , "dependencies": {
       "mongoose": "3.8.0"
     , "vows": "0.7.0"
-    , "mitm-proxy": "0.0.1"
-    , "connect": "2.11.0"
-    , "request": "latest"
+    , "request": "2.27.0"
   }
 }
