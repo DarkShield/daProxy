@@ -79,6 +79,7 @@ function respondsWithPOST(code, body){
         method: 'POST',
         uri: 'http://'+ url,
         body: body,
+        headers: {'cookie': 'dstc=123456'},
         proxy: 'http://localhost:8080',
         followRedirect: false
       }, this.callback);
@@ -92,5 +93,6 @@ function respondsWithPOST(code, body){
 function assertStatus(code) {
     return function (e, res) {
         assert.equal (res.statusCode, code);
+      console.log(res.headers)
     };
 }
