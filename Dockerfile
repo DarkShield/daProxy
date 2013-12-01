@@ -3,7 +3,7 @@
 
 from  ubuntu:12.04
 
-run   echo "deb http://archive.ubuntu.com/ubuntu quantal main universe" > /etc/apt/sources.list
+run   echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
 run   apt-get -y update
 
 run   apt-get -y install wget git
@@ -16,11 +16,7 @@ run   wget -O - http://nodejs.org/dist/v0.11.0/node-v0.11.0-linux-x64.tar.gz | t
 ADD   . /src/build
 
 run   cd /src/build
+run   npm install
+run   npm test
 
-RUN   chmod +x /src/build/start.sh
-
-env   NODE_ENV development
-
-EXPOSE 80
-
-CMD ["/src/build/start.sh"]
+CMD ["npm start"]
