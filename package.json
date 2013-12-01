@@ -6,7 +6,17 @@
   , "author": "Mattjay & ProZachJ"
   , "dependencies": {
       "mongoose": "3.8.0"
-    , "vows": "0.7.0"
     , "request": "2.27.0"
+    , "pm2": "0.6.8"
+  }
+  , "devDependencies": {
+      "vows": "latest"
+   , "jasmine-node": "latest"
+  }
+  , "scripts":{
+      "start": "./node_modules/pm2/bin/pm2 start startproxy.js -i max"
+    , "pretest": "npm install jasmine-node"
+    , "test": "./node_modules/jasmine-node/bin/jasmine-node ./spec"
+    , "posttest": "npm uninstall jasmine-node"
   }
 }
