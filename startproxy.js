@@ -1,6 +1,6 @@
-var mitmproxy = require('./proxyserver');
+var mitmproxy = require('./lib/proxyserver');
 var mongoose = require('mongoose');
-var Host = require('./hostSchema');
+var Host = require('./lib/hostSchema');
 var port = 8080;
 
 if(process.env.NODE_ENV === 'development'){
