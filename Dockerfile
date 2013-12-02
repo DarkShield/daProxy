@@ -17,4 +17,4 @@ ADD   . /src/build
 
 run   cd /src/build; npm install; npm test
 
-CMD ["npm", "start"]
+CMD ["npm", "start", "/src/build"]
