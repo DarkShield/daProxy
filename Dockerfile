@@ -19,4 +19,4 @@ run   cd /src/build; npm install -g --production; npm test
 
 EXPOSE 8080
 
-CMD ["/src/build/node_modules/pm2/bin/pm2", "start", "/src/build/startproxy.js", "-i", "max"]
+CMD ["pm2", "start", "/src/build/startproxy.js", "-i", "max"]
