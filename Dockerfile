@@ -19,4 +19,4 @@ run   cd /src/build; npm install --production --unsafe-perm; npm test
 
 EXPOSE 8080
 
-CMD ["pm2", "start", "/src/build/startproxy.js", "-i", "max"]
+CMD pm2 start /src/build/startproxy.js -i max && pm2 logs
