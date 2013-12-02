@@ -79,7 +79,7 @@ function respondsWithPOST(code, body){
         method: 'POST',
         uri: 'http://'+ url,
         body: body,
-        headers: {'cookie': 'dstc=123456'},
+        headers: {'cookie': 'dstc=123456; weirdcookie=something%C4%97%'},
         proxy: 'http://localhost:8080',
         followRedirect: false
       }, this.callback);
