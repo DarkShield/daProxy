@@ -15,6 +15,6 @@ run   wget -O - http://nodejs.org/dist/v0.11.0/node-v0.11.0-linux-x64.tar.gz | t
 
 ADD   . /src/build
 
-run   cd /src/build; npm install; npm test
+run   cd /src/build; npm install --production; npm test
 
 CMD ["npm", "start", "/src/build"]
