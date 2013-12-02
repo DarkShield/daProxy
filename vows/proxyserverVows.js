@@ -6,11 +6,16 @@ var server,
     port = 8080,
     verbos = true;
 var mongoose = require('mongoose');
-var Host = require('../lib/hostSchema')
-mongoose.connect('localhost', 'vicetest');
+var Host = require('../lib/hostSchema');
 
+if (process.env.NODE_ENV === 'test'){
+  mongoose.connect('10.192.198.253', 'proxytest');
+}
+else{
+  mongoose.connect('localhost', 'vicetest');
+}
 
-vows.describe('Proxy').addBatch({
+  vows.describe('Proxy').addBatch({
     'when proxyserver is required':{
         topic: function(){return mitmproxy},
         'we get a function': function(topic){
