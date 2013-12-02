@@ -3,10 +3,13 @@ var mongoose = require('mongoose');
 var Host = require('./lib/hostSchema');
 var port = 8080;
 
-if(process.env.NODE_ENV === 'development'){
+if (process.env.NODE_ENV === 'development'){
   mongoose.connect('localhost', 'vicetest');
-
 }
+else if (process.env.NODE_ENV === 'test'){
+  mongoose.connect('10.192.198.253', 'proxytest');
+}
+
 else{
   require('newrelic');
   mongoose.connect('10.192.198.253', 'vicetest');
