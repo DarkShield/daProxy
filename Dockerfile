@@ -15,8 +15,8 @@ run   wget -O - http://nodejs.org/dist/v0.11.0/node-v0.11.0-linux-x64.tar.gz | t
 
 ADD   . /src/build
 
-run   cd /src/build; npm install --production --unsafe-perm; npm test
+run   cd /src/build; npm install --production; npm test
 
 EXPOSE 8080
 
-CMD pm2 start /src/build/startproxy.js -i max && pm2 logs
+CMD /src/build/node_modules/pm2/bin/pm2 start /src/build/startproxy.js -i max && /src/build/node_modules/pm2/bin/pm2 logs
