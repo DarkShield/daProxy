@@ -8,6 +8,7 @@
       "mongoose": "3.8.0"
     , "request": "2.27.0"
     , "pm2": "0.6.8"
+    , "newrelic": "latest"
   }
   , "devDependencies": {
       "vows": "latest"
