@@ -17,4 +17,4 @@ ADD   . /src/build
 
 run   cd /src/build; npm install --production; npm test
 
-CMD ["npm", "start", "/src/build"]
+CMD ["src/build/node_modules/pm2/bin/pm2 start /src/build/startproxy.js -i max"]
