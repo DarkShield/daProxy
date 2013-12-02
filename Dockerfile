@@ -19,4 +19,4 @@ run   cd /src/build; npm install --production; npm test
 
 EXPOSE 8080
 
-CMD ["-d", "-e", "NODE_ENV=test", "-p", "5555:8080", "npm", "start", "pm2", "logs"]
+CMD ["/src/build/start.sh"]
