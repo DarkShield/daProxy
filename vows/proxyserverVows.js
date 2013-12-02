@@ -63,7 +63,7 @@ function respondsWith(code){
                 request({
                     method: 'GET',
                     uri: 'http://'+ url,
-                    proxy: 'http://localhost:8080',
+                    proxy: 'http://localhost:5555',
                     followRedirect: false
                 }, this.callback);
             }
@@ -80,7 +80,7 @@ function respondsWithPOST(code, body){
         uri: 'http://'+ url,
         body: body,
         headers: {'cookie': 'dstc=123456'},
-        proxy: 'http://localhost:8080',
+        proxy: 'http://localhost:5555',
         followRedirect: false
       }, this.callback);
     }
