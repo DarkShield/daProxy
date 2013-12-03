@@ -19,4 +19,4 @@ run   cd /src/build; npm install --production; npm test
 
 EXPOSE 8080
 
-CMD ["/src/build/start.sh"]
+CMD npm start /src/build && /src/build/node_modules/pm2/bin/pm2 logs
