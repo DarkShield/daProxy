@@ -75,9 +75,6 @@ describe('Proxyserver', function() {
     waitsFor(function() {
       return res;
     }, "Response", 5100);
-    /*runs(function() {
-      expect(res.statusCode).toBe(200);
-    });*/
   });
 
   it('gets the correct response from urbanhydro with an xss', function() {
@@ -97,9 +94,6 @@ describe('Proxyserver', function() {
     waitsFor(function() {
       return res;
     }, "Response", 5100);
-    /*runs(function() {
-      expect(res.statusCode).toBe(301);
-    });*/
   });
 
   it('gets a correct response from yourbrainproject', function() {
@@ -118,9 +112,6 @@ describe('Proxyserver', function() {
     waitsFor(function() {
       return res;
     }, "Response", 5100);
-    /*runs(function() {
-      expect(res.statusCode).toBe(200);
-    });*/
   });
 
   it('gets a correct response from supercroppers with path traversal', function() {
@@ -139,9 +130,6 @@ describe('Proxyserver', function() {
     waitsFor(function() {
       return res;
     }, "Response", 5100);
-    /*runs(function() {
-      expect(res.statusCode).toBe(200);
-    });*/
   });
 
   it('gets a correct response from urbanhydro with SQLi', function() {
@@ -160,9 +148,6 @@ describe('Proxyserver', function() {
     waitsFor(function() {
       return res;
     }, "Response", 5100);
-    /*runs(function() {
-      expect(res.statusCode).toBe(301);
-    });*/
   });
 
   it('gets a correct response from supercroppers', function() {
@@ -181,9 +166,6 @@ describe('Proxyserver', function() {
     waitsFor(function() {
       return res;
     }, "Response", 5100);
-    /*runs(function() {
-      expect(res.statusCode).toBe(200);
-    });*/
   });
 
   it('gets a correct response from urbanhydro with an xss and long request', function() {
@@ -204,9 +186,6 @@ describe('Proxyserver', function() {
     waitsFor(function() {
       return res;
     }, "Response", 5100);
-    /*runs(function() {
-      expect(res.statusCode).toBe(200);
-    });*/
   });
 
   it('gets a correct response from google', function() {
@@ -225,9 +204,6 @@ describe('Proxyserver', function() {
     waitsFor(function() {
       return res;
     }, "Response", 5100);
-    /*runs(function() {
-      expect(res.statusCode).toBe(404);
-    });*/
   });
 
   it('gets a correct response form urbanhydro with a POST request xss', function() {
@@ -248,9 +224,6 @@ describe('Proxyserver', function() {
     waitsFor(function() {
       return res;
     }, "Response", 5100);
-    /*runs(function() {
-      expect(res.statusCode).toBe(404);
-    });*/
   });
 
 
@@ -275,9 +248,10 @@ describe('Proxyserver', function() {
     waitsFor(function() {
       return res;
     }, "Response", 5100);
-    /*runs(function() {
-      expect(res.statusCode).toBe(404);
-    });*/
   });
 
+  setTimeout(function() {
+    console.log('disconnect');
+    mongoose.disconnect();
+  }, 20000);
 });
