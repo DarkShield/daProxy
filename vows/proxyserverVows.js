@@ -9,7 +9,7 @@ var mongoose = require('mongoose');
 var Host = require('../lib/hostSchema');
 
 if (process.env.NODE_ENV === 'test'){
-  mongoose.connect('10.192.198.253', 'proxytest');
+  mongoose.connect('10.136.20.210', 'proxytest');
 }
 else{
   mongoose.connect('localhost', 'vicetest');
