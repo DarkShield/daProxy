@@ -30,7 +30,14 @@ describe('Proxyserver', function() {
       wwwyourbrainprojectcom:'enabled'
     }
   });
-  proxy.startServer();
+
+  beforeEach(function() {
+    proxy.startServer();
+  });
+
+  afterEach(function() {
+    proxy.stopServer();
+  })
 
   it('should be a function', function() {
     expect(typeof(mitmproxy)).toBe('function');
