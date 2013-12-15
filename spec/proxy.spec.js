@@ -49,7 +49,7 @@ describe('Proxyserver', function() {
     expect(verbose).toEqual(proxy.options.verbose);
   });
 
-  it('can request properly when the servers are running', function() {
+  it('can request urbanhydro', function() {
     runs(function() {
       res = null;
       request({
@@ -68,99 +68,198 @@ describe('Proxyserver', function() {
     runs(function() {
       expect(res.statusCode).toBe(200);
     });
+  });
 
+  it('gets the correct response from urbanhydro with an xss', function() {
+    runs(function() {
+      res = null;
+      request({
+        method: 'GET',
+        uri: 'http://www.urbanhydro.org/?test=<script>',
+        proxy: 'http://localhost:8080',
+        followRedirect: false
+      }, function(e, r, b) {
+        console.log(r.statusCode);
+        res = r;
+      })
+    }, 2000);
+    waitsFor(function() {
+      return res;
+    }, "Response", 2100);
+    runs(function() {
+      expect(res.statusCode).toBe(301);
+    });
+  });
 
-    /*
-    request({
-      method: 'GET',
-      uri: 'http://www.urbanhydro.org/?test=<script>',
-      proxy: 'http://localhost:8080',
-      followRedirect: false
-    }, function(e, r, b) {
-      expect(r.statusCode).toBe(301);
+  it('gets a correct response from yourbrainproject', function() {
+    runs(function() {
+      res = null;
+      request({
+        method: 'GET',
+        uri: 'http://www.yourbrainproject.com',
+        proxy: 'http://localhost:8080',
+        followRedirect: false
+      }, function(e, r, b) {
+        console.log(r.statusCode);
+        res = r;
+      })
+    }, 2000);
+    waitsFor(function() {
+      return res;
+    }, "Response", 2100);
+    runs(function() {
+      expect(res.statusCode).toBe(200);
     });
-    request({
-      method: 'GET',
-      uri: 'http://www.yourbrainproject.com',
-      proxy: 'http://localhost:8080',
-      followRedirect: false
-    }, function(e, r, b) {
-      expect(r.statusCode).toBe(200);
+  });
+
+  it('gets a correct response from supercroppers with path traversal', function() {
+    runs(function() {
+      res = null;
+      request({
+        method: 'GET',
+        uri: 'http://supercroppers.com/testing/directory/../test',
+        proxy: 'http://localhost:8080',
+        followRedirect: false
+      }, function(e, r, b) {
+        console.log(r.statusCode);
+        res = r;
+      })
+    }, 2000);
+    waitsFor(function() {
+      return res;
+    }, "Response", 2100);
+    runs(function() {
+      expect(res.statusCode).toBe(200);
     });
-    request({
-      method: 'GET',
-      uri: 'http://supercroppers.com/testing/directory/../test',
-      proxy: 'http://localhost:8080',
-      followRedirect: false
-    }, function(e, r, b) {
-      expect(r.statusCode).toBe(301);
+  });
+
+  it('gets a correct response from urbanhydro with SQLi', function() {
+    runs(function() {
+      res = null;
+      request({
+        method: 'GET',
+        uri: "http://urbanhydro.org/?test='OR+1=1",
+        proxy: 'http://localhost:8080',
+        followRedirect: false
+      }, function(e, r, b) {
+        console.log(r.statusCode);
+        res = r;
+      })
+    }, 2000);
+    waitsFor(function() {
+      return res;
+    }, "Response", 2100);
+    runs(function() {
+      expect(res.statusCode).toBe(301);
     });
-    request({
-      method: 'GET',
-      uri: "http://urbanhydro.org/?test='OR+1=1",
-      proxy: 'http://localhost:8080',
-      followRedirect: false
-    }, function(e, r, b) {
-      expect(r.statusCode).toBe(200);
+  });
+
+  it('gets a correct response from supercroppers', function() {
+    runs(function() {
+      res = null;
+      request({
+        method: 'GET',
+        uri: 'http://www.supercroppers.com',
+        proxy: 'http://localhost:8080',
+        followRedirect: false
+      }, function(e, r, b) {
+        console.log(r.statusCode);
+        res = r;
+      })
+    }, 2000);
+    waitsFor(function() {
+      return res;
+    }, "Response", 2100);
+    runs(function() {
+      expect(res.statusCode).toBe(200);
     });
-    request({
-      method: 'GET',
-      uri: 'http://supercroppers.com/wizbangs.php',
-      proxy: 'http://localhost:8080',
-      followRedirect: false
-    }, function(e, r, b) {
-      expect(r.statusCode).toBe(301);
+  });
+
+  it('gets a correct response from urbanhydro with an xss and long request', function() {
+    runs(function() {
+      res = null;
+      request({
+        method: 'GET',
+        uri: 'http://urbanhydro.org/?test=<script>as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;',
+        proxy: 'http://localhost:8080',
+        followRedirect: false
+      }, function(e, r, b) {
+        console.log(r.statusCode);
+        res = r;
+      })
+    }, 2000);
+    waitsFor(function() {
+      return res;
+    }, "Response", 2100);
+    runs(function() {
+      expect(res.statusCode).toBe(200);
     });
-    request({
-      method: 'GET',
-      uri: 'http://www.supercroppers.com',
-      proxy: 'http://localhost:8080',
-      followRedirect: false
-    }, function(e, r, b) {
-      expect(r.statusCode).toBe(200);
+  });
+
+  it('gets a correct response from google', function() {
+    runs(function() {
+      res = null;
+      request({
+        method: 'GET',
+        uri: 'http://www.google.com',
+        proxy: 'http://localhost:8080',
+        followRedirect: false
+      }, function(e, r, b) {
+        console.log(r.statusCode);
+        res = r;
+      })
+    }, 2000);
+    waitsFor(function() {
+      return res;
+    }, "Response", 2100);
+    runs(function() {
+      expect(res.statusCode).toBe(404);
     });
-    request({
-      method: 'GET',
-      uri: 'http://urbanhydro.org/?test=<script>as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;',
-      proxy: 'http://localhost:8080',
-      followRedirect: false
-    }, function(e, r, b) {
-      expect(r.statusCode).toBe(200);
+  });
+
+  it('gets a correct response form urbanhydro with a POST request xss')
+    runs(function() {
+      res = null;
+      request({
+        method: 'POST',
+        uri: 'http://urbanhydro.org/jimmie',
+        headers: {'cookie': 'dstc=123456; weirdcookie=something%C4%97%'},
+        body: '<script></script>',
+        proxy: 'http://localhost:8080',
+        followRedirect: false
+      }, function(e, r, b) {
+        console.log(r.statusCode);
+        res = r;
+      })
+    }, 2000);
+    waitsFor(function() {
+      return res;
+    }, "Response", 2100);
+    runs(function() {
+      expect(res.statusCode).toBe(404);
     });
-    request({
-      method: 'GET',
-      uri: 'http://www.google.com',
-      proxy: 'http://localhost:8080',
-      followRedirect: false
-    }, function(e, r, b) {
-      expect(r.statusCode).toBe(404);
+
+  it('gets a correct response from a POST request xss with long payload', function() {
+    runs(function() {
+      res = null;
+      request({
+        method: 'POST',
+        uri: 'http://www.urbanhydro.org/?test=<script>',
+        proxy: 'http://localhost:8080',
+        headers: {'cookie': 'dstc=123456; weirdcookie=something%C4%97%'},
+        body: '<script>as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwej</script>',
+        followRedirect: false
+      }, function(e, r, b) {
+        console.log(r.statusCode);
+        res = r;
+      })
+    }, 2000);
+    waitsFor(function() {
+      return res;
+    }, "Response", 2100);
+    runs(function() {
+      expect(res.statusCode).toBe(404);
     });
-    request({
-      method: 'GET',
-      uri: 'http://urbanhydro.org/?test=<script>',
-      proxy: 'http://localhost:8080',
-      followRedirect: false
-    }, function(e, r, b) {
-      expect(r.statusCode).toBe(200);
-    });
-    request({
-      method: 'POST',
-      uri: 'http://urbanhydro.org/jimmie',
-      body: '<script></script>',
-      proxy: 'http://localhost:8080',
-      followRedirect: false
-    }, function(e, r, b) {
-      expect(r.statusCode).toBe(404);
-    });
-    request({
-      method: 'POST',
-      uri: 'http://urbanhydro.org/jimmie',
-      body: '<script>as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;</script>',
-      proxy: 'http://localhost:8080',
-      followRedirect: false
-    }, function(e, r, b) {
-      expect(r.statusCode).toBe(404);
-    });*/
   });
 
 });
