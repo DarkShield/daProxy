@@ -6,15 +6,16 @@ var port = 8080;
 if (process.env.NODE_ENV === 'development'){
   mongoose.connect('localhost', 'vicetest');
 }
-else if (process.env.NODE_ENV === 'test'){
-  mongoose.connect('10.192.198.253', 'proxytest');
-}
-
-else{
+else if (process.env.NODE_ENV === 'production'){
   require('newrelic');
-  mongoose.connect('10.192.198.253', 'vicetest');
+  mongoose.connect('10.136.20.210', 'vicetest');
   port = 80;
 }
+else {
+  mongoose.connect('10.136.20.210', 'proxytest');
+}
+
+
 
 
 var allowed_hosts = {};
