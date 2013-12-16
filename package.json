@@ -11,8 +11,7 @@
     , "newrelic": "latest"
   }
   , "devDependencies": {
-      "vows": "latest"
-   , "jasmine-node": "latest"
+      "jasmine-node": "latest"
   }
   , "scripts":{
       "start": "./node_modules/pm2/bin/pm2 start startproxy.js -i max -u root"
