@@ -7,12 +7,12 @@ if (process.env.NODE_ENV === 'development'){
   mongoose.connect('localhost', 'vicetest');
 }
 else if (process.env.NODE_ENV === 'test'){
-  mongoose.connect('10.192.198.253', 'proxytest');
+  mongoose.connect('10.136.20.210', 'proxytest');
 }
 
 else{
   require('newrelic');
-  mongoose.connect('10.192.198.253', 'vicetest');
+  mongoose.connect('10.136.20.210', 'vicetest');
   port = 80;
 }
 
