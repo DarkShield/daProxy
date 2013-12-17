@@ -5,6 +5,8 @@ var request = require('request');
 var port = 5555;
 var res;
 
+console.log('running');
+
 describe('Proxyserver', function() {
 
   it('can request urbanhydro', function() {
