@@ -19,18 +19,19 @@ describe('Proxyserver', function() {
         uri: 'http://urbanhydro.org',
         proxy: 'http://localhost:'+port,
         followRedirect: false
-      }, function(e, r, b) {
+      },
+        function(e, r) {
          gotRes = true;
          result = (!e) ? r : e;
-      })
-    }, 5000);
+      });
+    });
 
     waitsFor(function() {
       return gotRes;
-    }, "There should be a Response", 2000);
+    }, "There should be a Response", 5000);
 
     runs(function(){
-      expect(res.statusCode).toBe(200);
+      expect(result.statusCode).toBe(200);
     });
   });
 
