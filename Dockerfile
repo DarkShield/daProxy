@@ -17,7 +17,7 @@ ADD   . /src/build
 
 ADD  ./hosts /etc/hosts
 
-run   cd /src/build; npm install --production; npm test
+run   cd /src/build; npm install --production
 
 EXPOSE 8080
 
