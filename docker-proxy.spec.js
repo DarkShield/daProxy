@@ -9,6 +9,10 @@ console.log('running');
 
 describe('Proxyserver', function() {
 
+  it('should fail', function(){
+    expect(1).toEqual(0);
+  });
+
   it('can request urbanhydro', function() {
     runs(function() {
       res = null;
