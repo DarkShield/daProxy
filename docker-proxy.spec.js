@@ -10,22 +10,28 @@ console.log('running');
 describe('Proxyserver', function() {
 
   it('can request urbanhydro', function() {
+
     runs(function() {
-      res = null;
+      var res, body, err = null;
       request({
         method: 'GET',
         uri: 'http://urbanhydro.org',
         proxy: 'http://localhost:'+port,
         followRedirect: false
       }, function(e, r, b) {
-        expect(e).toBe(null);
-        expect(r.statusCode).toBe(200);
+        err = e;
+        body = b;
         res = r;
       })
     }, 5000);
+
     waitsFor(function() {
       return res;
-    }, "Response", 5100);
+    }, "There should be a Response", 5100);
+
+    runs(function(){
+      expect(res.statusCode).toBe(200);
+    });
   });
 
   it('gets the correct response from urbanhydro with an xss', function() {
