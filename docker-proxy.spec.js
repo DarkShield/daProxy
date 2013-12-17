@@ -12,22 +12,22 @@ describe('Proxyserver', function() {
   it('can request urbanhydro', function() {
 
     runs(function() {
-      var res, body, err = null;
+      gotRes = false;
+      result = null;
       request({
         method: 'GET',
         uri: 'http://urbanhydro.org',
         proxy: 'http://localhost:'+port,
         followRedirect: false
       }, function(e, r, b) {
-        err = e;
-        body = b;
-        res = r;
+         gotRes = true;
+         result = (!e) ? r : e;
       })
     }, 5000);
 
     waitsFor(function() {
-      return res;
-    }, "There should be a Response", 5100);
+      return gotRes;
+    }, "There should be a Response", 2000);
 
     runs(function(){
       expect(res.statusCode).toBe(200);
