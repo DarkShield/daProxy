@@ -18,6 +18,7 @@ describe('Proxyserver', function() {
         proxy: 'http://localhost:'+port,
         followRedirect: false
       }, function(e, r, b) {
+        expect(e).toBe(null);
         expect(r.statusCode).toBe(200);
         res = r;
       })
