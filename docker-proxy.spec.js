@@ -3,8 +3,6 @@
  */
 var request = require('request');
 var port = 5555;
-var gotRes;
-var result;
 
 console.log('running');
 
