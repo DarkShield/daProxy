@@ -96,6 +96,23 @@ describe('Proxyserver', function() {
     }, "Response", 5100);
   });
 
+  it('gets a correct response from yourbrainproject', function() {
+    runs(function() {
+      res = null;
+      request({
+        method: 'GET',
+        uri: 'http://www.yourbrainproject.com',
+        proxy: 'http://localhost:8080',
+        followRedirect: false
+      }, function(e, r, b) {
+        expect(r.statusCode).toBe(200);
+        res = r;
+      })
+    }, 5000);
+    waitsFor(function() {
+      return res;
+    }, "Response", 5100);
+  });
 
   it('gets a correct response from supercroppers with path traversal', function() {
     runs(function() {
