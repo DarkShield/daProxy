@@ -5,6 +5,9 @@ var port = 8080;
 
 if (process.env.NODE_ENV === 'development'){
   mongoose.connect('localhost', 'vicetest');
+  if (process.env.PORT) {
+    port = process.env.PORT;
+  }
 }
 else if (process.env.NODE_ENV === 'production'){
   require('newrelic');
