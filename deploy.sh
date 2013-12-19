@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker push localhost:49154/proxy
+sudo docker push localhost:49154/proxy
