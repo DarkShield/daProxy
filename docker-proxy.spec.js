@@ -29,7 +29,7 @@ describe('Proxyserver', function() {
 
     waitsFor(function() {
       return gotRes;
-    }, "There should be a response", 5000);
+    }, "There should be a response", 10000);
 
     runs(function(){
       expect(result.statusCode).toBe(200);
