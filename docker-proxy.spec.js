@@ -65,37 +65,6 @@ describe('Proxyserver', function() {
     });
   });
 
-  it('gets a correct response from yourbrainproject', function() {
-    var gotRes = false;
-    var result = {};
-
-    runs(function() {
-      request(
-        {
-        method: 'GET',
-        uri: 'http://www.yourbrainproject.com',
-        proxy: 'http://localhost:'+port,
-        followRedirect: false
-        },
-        function(e, r) {
-          gotRes = true;
-          if(e !== null){
-            result['statusCode'] = e;
-          }else{
-            result = r;
-        }
-      });
-    });
-
-    waitsFor(function() {
-      return gotRes;
-    }, "There should be a response", 5000);
-
-    runs(function(){
-      expect(result.statusCode).toBe(200);
-    });
-  });
-
   it('gets a correct response from supercroppers with path traversal', function() {
     var gotRes = false;
     var result = {};
