@@ -15,7 +15,6 @@
   }
   , "scripts":{
       "start": "./node_modules/pm2/bin/pm2 start startproxy.js -i max -u root && ./node_modules/pm2/bin/pm2 logs"
-    , "pretest": "npm install jasmine-node"
-    , "test": "./node_modules/jasmine-node/bin/jasmine-node ./spec"
+    , "test": "jasmine-node ./spec"
   }
 }
