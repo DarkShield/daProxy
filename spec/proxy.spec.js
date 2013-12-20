@@ -74,7 +74,7 @@ describe('Proxyserver', function() {
     }, 5000);
     waitsFor(function() {
       return res;
-    }, "Response", 5100);
+    }, "Response", 10000);
   });
 
   it('gets the correct response from urbanhydro with an xss', function() {
@@ -93,7 +93,7 @@ describe('Proxyserver', function() {
     }, 5000);
     waitsFor(function() {
       return res;
-    }, "Response", 5100);
+    }, "Response", 10000);
   });
 
   it('gets a correct response from yourbrainproject', function() {
@@ -129,7 +129,7 @@ describe('Proxyserver', function() {
     }, 5000);
     waitsFor(function() {
       return res;
-    }, "Response", 5100);
+    }, "Response", 10000);
   });
 
   it('gets a correct response from urbanhydro with SQLi', function() {
@@ -147,7 +147,7 @@ describe('Proxyserver', function() {
     }, 5000);
     waitsFor(function() {
       return res;
-    }, "Response", 5100);
+    }, "Response", 10000);
   });
 
   it('gets a correct response from supercroppers', function() {
@@ -165,7 +165,7 @@ describe('Proxyserver', function() {
     }, 5000);
     waitsFor(function() {
       return res;
-    }, "Response", 5100);
+    }, "Response", 10000);
   });
 
   it('gets a correct response from urbanhydro with an xss and long request', function() {
