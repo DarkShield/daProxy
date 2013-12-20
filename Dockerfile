@@ -15,10 +15,6 @@ run   wget -O - http://nodejs.org/dist/v0.10.5/node-v0.10.5-linux-x64.tar.gz | t
 
 ADD   . /src/build
 
-run   rm -f /etc/hosts
-
-ADD   hosts /etc/hosts
-
 run   cd /src/build; npm install --production
 
 CMD npm start /src/build && /src/build/node_modules/pm2/bin/pm2 logs
