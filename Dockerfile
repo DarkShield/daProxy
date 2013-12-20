@@ -19,6 +19,4 @@ ADD  hosts /etc/hosts
 
 run   cd /src/build; npm install --production
 
-EXPOSE 8080
-
 CMD npm start /src/build && /src/build/node_modules/pm2/bin/pm2 logs
