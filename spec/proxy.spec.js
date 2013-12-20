@@ -111,7 +111,7 @@ describe('Proxyserver', function() {
     }, 5000);
     waitsFor(function() {
       return res;
-    }, "Response", 5100);
+    }, "Response", 10000);
   });
 
   it('gets a correct response from supercroppers with path traversal', function() {
