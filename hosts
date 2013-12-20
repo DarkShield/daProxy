@@ -1,13 +1,4 @@
 127.0.0.1 localhost
-
-# The following lines are desirable for IPv6 capable hosts
-::1 ip6-localhost ip6-loopback
-fe00::0 ip6-localnet
-ff00::0 ip6-mcastprefix
-ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters
-ff02::3 ip6-allhosts
-192.30.252.130 github.com
 50.31.164.140 collector.newrelic.com
 50.31.164.145 collector-1.newrelic.com
 50.31.164.146 collector-2.newrelic.com
@@ -18,3 +9,13 @@ ff02::3 ip6-allhosts
 50.31.164.151 collector-7.newrelic.com
 50.31.164.152 collector-8.newrelic.com
 50.31.164.153 collector-9.newrelic.com
+
+# The following lines are desirable for IPv6 capable hosts
+::1 ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts
+
+
