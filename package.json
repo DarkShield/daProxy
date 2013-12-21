@@ -6,9 +6,15 @@
   , "author": "Mattjay & ProZachJ"
   , "dependencies": {
       "mongoose": "3.8.0"
-    , "vows": "0.7.0"
-    , "mitm-proxy": "0.0.1"
-    , "connect": "2.11.0"
-    , "request": "latest"
+    , "request": "2.27.0"
+    , "pm2": "0.6.8"
+    , "newrelic": "latest"
+  }
+  , "devDependencies": {
+      "jasmine-node": "latest"
+  }
+  , "scripts":{
+      "start": "./node_modules/pm2/bin/pm2 start startproxy.js -i max -u root && ./node_modules/pm2/bin/pm2 logs"
+    , "test": "jasmine-node ./spec"
   }
 }
