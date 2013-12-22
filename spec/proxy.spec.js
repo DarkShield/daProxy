@@ -212,7 +212,7 @@ describe('Proxyserver', function() {
       request({
         method: 'POST',
         uri: 'http://urbanhydro.org/jimmie',
-        headers: {'cookie': 'dstc=123456; weirdcookie=something%C4%97%'},
+        headers: {'cookie': 'dstc=123456; weirdcookie=something%C4%97%', 'x-forwarded-for': '1.2.3.4'},
         body: 'teset',
         proxy: 'http://localhost:8080',
         followRedirect: false
@@ -237,7 +237,7 @@ describe('Proxyserver', function() {
         method: 'POST',
         uri: 'http://www.urbanhydro.org/jimmie',
         proxy: 'http://localhost:8080',
-        headers: {'cookie': 'dstc=123456; weirdcookie=something%C4%97%'},
+        headers: {'cookie': 'dstc=123456; weirdcookie=something%C4%97%', 'x-forwarded-for': '1.2.3.4'},
         body: body,
         followRedirect: false
       }, function(e, r, b) {
