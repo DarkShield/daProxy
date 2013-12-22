@@ -28,3 +28,4 @@ docker run -d -e NODE_ENV=production -p 80:80 -dns 10.245.219.212 proxy
 ```
 cd /docker-registry && ./setup-configs.sh && ./run.sh
 ```
+
