@@ -21,3 +21,4 @@ docker run -d -e NODE_ENV=production -p 80:80 -dns 10.245.219.212 proxy
 ```
 
 **The docker run command executes startproxy.js with pm2 in max mode. It creates a load balanced cluster with one process for each available CPU core. If you want to replicate this outside of docker just run 'npm start'.**
+
