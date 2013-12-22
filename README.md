@@ -46,7 +46,7 @@ exit $result
 ```
 
 ***deploy***
-```
+```bash
 #must have 127.0.0.1 darkdocker.darkshield.io in /etc/hosts
 
 docker tag proxy darkdocker.darkshield.io:49154/proxy
