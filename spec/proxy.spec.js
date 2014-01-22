@@ -1,11 +1,20 @@
 var mongoose = require('mongoose');
-var Host = require('../lib/hostSchema');
-var mitmproxy = require('../lib/proxyserver');
+//var Host = require('../lib/hostSchema');
+var httpProxy = require('http-proxy');
+var createServer = require('../lib/proxyserver');
 var request = require('request');
 var proxy = null;
+var server = null;
 var port = 8080;
 var verbose = true;
 var res;
+var allowed_hosts = {
+  urbanhydroorg:'enabled',
+  wwwurbanhydroorg: 'enabled',
+  wwwsupercropperscom: 'enabled',
+  supercropperscom:'enabled',
+  wwwyourbrainprojectcom:'enabled'
+};
 
 describe('Proxyserver', function() {
 
@@ -19,44 +28,30 @@ describe('Proxyserver', function() {
   else {
     mongoose.connect('10.136.20.210', 'proxytest');
   }
-  proxy = mitmproxy({
-    proxy_port: 8080,
-    verbose: true,
-    hosts: {
-      urbanhydroorg:'enabled',
-      wwwurbanhydroorg: 'enabled',
-      wwwsupercropperscom: 'enabled',
-      supercropperscom:'enabled',
-      wwwyourbrainprojectcom:'enabled'
-    }
-  });
+  proxy = httpProxy.createProxyServer();
+  server = createServer(proxy, allowed_hosts, port);
 
   beforeEach(function() {
-    proxy.startServer();
+    server.startServer();
   });
 
   afterEach(function() {
-    proxy.stopServer();
+    server.stopServer();
   })
 
   it('should be a function', function() {
-    expect(typeof(mitmproxy)).toBe('function');
+    expect(typeof(createServer)).toBe('function');
   });
 
   it('should return an object when called', function() {
-    expect(typeof(proxy)).toBe('object');
+    expect(typeof(server)).toBe('object');
   });
 
   it('should have a startServer and stopServer method', function() {
-    expect(proxy.startServer).toBeDefined();
-    expect(typeof(proxy.startServer)).toBe('function');
-    expect(proxy.stopServer).toBeDefined();
-    expect(typeof(proxy.stopServer)).toBe('function');
-  });
-
-  it('has the correct port & verbose values', function() {
-    expect(port).toEqual(proxy.options.proxy_port);
-    expect(verbose).toEqual(proxy.options.verbose);
+    expect(server.startServer).toBeDefined();
+    expect(typeof(server.startServer)).toBe('function');
+    expect(server.stopServer).toBeDefined();
+    expect(typeof(server.stopServer)).toBe('function');
   });
 
   it('can request urbanhydro', function() {
