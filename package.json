@@ -6,12 +6,12 @@
   , "author": "Mattjay & ProZachJ"
   , "dependencies": {
       "mongoose": "3.8.0"
-    , "request": "2.27.0"
     , "pm2": "0.6.8"
     , "newrelic": "latest"
   }
   , "devDependencies": {
       "jasmine-node": "latest"
+      ,"request": "2.27.0"
   }
   , "scripts":{
       "start": "./node_modules/pm2/bin/pm2 start startproxy.js -i max -u root && ./node_modules/pm2/bin/pm2 logs"
