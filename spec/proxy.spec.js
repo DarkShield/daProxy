@@ -64,6 +64,7 @@ describe('Proxyserver', function() {
         followRedirect: false
       }, function(e, r, b) {
         expect(r.statusCode).toBe(200);
+        console.log(r.headers);
         res = r;
       })
     }, 5000);
@@ -119,6 +120,7 @@ describe('Proxyserver', function() {
         followRedirect: false
       }, function(e, r, b) {
         expect(r.statusCode).toBe(301);
+        console.log(r.headers);
         res = r;
       })
     }, 5000);
