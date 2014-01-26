@@ -23,4 +23,17 @@ describe('cookie parser unit tests', function() {
     expect(cookies.dstc).toBe('123456');
     expect(cookies.other).toBe('abcdefg');
   });
+
+  it('should parse cookies correctly and fail gracefully with strange characters', function() {
+    var req = {
+      headers: {
+        'cookie': 'dstc=123456; weirdcookie=something%C4%97%'
+      }
+    }
+    var cookies = cp(req);
+
+    expect(cookies).toBeDefined();
+    expect(typeof(cookies)).toBe('object');
+    expect(cookies.dstc).toBe('123456');
+  })
 });
