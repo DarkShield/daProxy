@@ -29,6 +29,12 @@ Host.find({}, function(err, hosts) {
 
     var proxy = httpProxy.createProxyServer();
     var server = createServer(proxy, allowed_hosts, port);
+
+    //WebSocket Support
+    server.on('upgrade', function (req, socket, head) {
+      proxy.ws(req, socket, head);
+    });
+
     server.startServer();
   }
 });

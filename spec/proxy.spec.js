@@ -263,5 +263,5 @@ describe('Proxyserver', function() {
   setTimeout(function() {
     console.log('disconnect');
     mongoose.disconnect();
-  }, 11000);
+  }, 20000);
 });
