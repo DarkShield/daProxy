@@ -64,7 +64,8 @@ describe('Proxyserver', function() {
         followRedirect: false
       }, function(e, r, b) {
         expect(r.statusCode).toBe(200);
-        console.log(r.headers);
+        expect(r.headers['set-cookie']).toBeDefined();
+        expect(r.headers['set-cookie'][0]).toMatch(/dstc/);
         res = r;
       })
     }, 5000);
@@ -84,6 +85,8 @@ describe('Proxyserver', function() {
         followRedirect: false
       }, function(e, r, b) {
         expect(r.statusCode).toBe(301);
+        expect(r.headers['set-cookie']).toBeDefined();
+        expect(r.headers['set-cookie'][0]).toMatch(/dstc/);
         res = r;
       })
     }, 5000);
@@ -102,6 +105,8 @@ describe('Proxyserver', function() {
         followRedirect: false
       }, function(e, r, b) {
         expect(r.statusCode).toBe(200);
+        expect(r.headers['set-cookie']).toBeDefined();
+        expect(r.headers['set-cookie'][0]).toMatch(/dstc/);
         res = r;
       })
     }, 5000);
@@ -120,7 +125,8 @@ describe('Proxyserver', function() {
         followRedirect: false
       }, function(e, r, b) {
         expect(r.statusCode).toBe(301);
-        console.log(r.headers);
+        expect(r.headers['set-cookie']).toBeDefined();
+        expect(r.headers['set-cookie'][0]).toMatch(/dstc/);
         res = r;
       })
     }, 5000);
@@ -250,5 +256,5 @@ describe('Proxyserver', function() {
   setTimeout(function() {
     console.log('disconnect');
     mongoose.disconnect();
-  }, 20000);
+  }, 11000);
 });
