@@ -8,7 +8,8 @@
     "mongoose": "3.8.0",
     "pm2": "0.6.8",
     "newrelic": "latest",
-    "http-proxy": "~1.0.1"
+    "http-proxy": "~1.0.1",
+    "uuid": "1.4.1"
   },
   "devDependencies": {
     "jasmine-node": "latest",
