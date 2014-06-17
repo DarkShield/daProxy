@@ -1,5 +1,5 @@
-var attack = require('../lib/attack');
-var db = require('../lib/requestWriter');
+var attack = require('../../lib/attack');
+var db = require('../../lib/requestWriter');
 
 describe('Attack check & DB write', function() {
 

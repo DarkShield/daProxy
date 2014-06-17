@@ -1,4 +1,4 @@
-var sqli = require('../lib/waf/inspectors/sqli');
+var sqli = require('../../lib/waf/inspectors/sqli');
 
 describe('SQLi inspector', function(){
   

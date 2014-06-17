@@ -1,8 +1,8 @@
-var inspect = require('../lib/waf/inspectors/inspect');
-var xss = require('../lib/waf/inspectors/xss');
-var sqli = require('../lib/waf/inspectors/sqli');
-var dirTrav = require('../lib/waf/inspectors/dirTrav');
-var rce = require('../lib/waf/inspectors/rce');
+var inspect = require('../../lib/waf/inspectors/inspect');
+var xss = require('../../lib/waf/inspectors/xss');
+var sqli = require('../../lib/waf/inspectors/sqli');
+var dirTrav = require('../../lib/waf/inspectors/dirTrav');
+var rce = require('../../lib/waf/inspectors/rce');
 
 describe('Inspect Function', function() {
 
