@@ -1,4 +1,4 @@
-var xss = require('../lib/waf/inspectors/xss');
+var xss = require('../../lib/waf/inspectors/xss');
 
 describe('XSS inspector', function() {
 

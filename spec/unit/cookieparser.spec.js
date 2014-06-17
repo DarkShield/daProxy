@@ -1,7 +1,7 @@
 /**
  * Created by mattjohansen on 1/26/14.
  */
-var cp = require('../lib/cookieparser');
+var cp = require('../../lib/cookieparser');
 
 describe('cookie parser unit tests', function() {
 
