@@ -2,33 +2,10 @@ var xss = require('../lib/waf/inspectors/xss');
 
 describe('XSS inspector', function() {
 
-  it('should be an object', function() {
-    expect(typeof(xss)).toBe('object');
-  });
-
   it('should have an inspectors property that is an array containing at least one object', function() {
     expect(xss.inspectors).toBeDefined();
     expect(xss.inspectors[0]).toBeDefined();
     expect(typeof(xss.inspectors[0])).toBe('object');
-  });
-
-  it('should have an inspect property that is a function', function() {
-    expect(typeof(xss.inspect)).toBe('function');
-  });
-
-  describe('inspect function', function() {
-
-    it('should return an inspector match object when called', function() {
-      var ret = xss.inspect();
-      expect(typeof(ret)).toBe('object');
-      expect(ret.attack).toBeDefined();
-      expect(typeof(ret.attack)).toBe('boolean');
-      expect(ret.id).toBeDefined();
-      expect(ret.matches).toBeDefined();
-      expect(ret.score).toBeDefined();
-      expect(typeof(ret.score)).toBe('number');
-    });
-
   });
 
   describe('All XSS Inspectors', function() {
@@ -64,7 +41,8 @@ describe('XSS inspector', function() {
     });  
   });
 
-  describe('On Event XSS Inspector', function() {
+  //Need a new onevent regex
+  /*describe('On Event XSS Inspector', function() {
 
     var inspector = xss.inspectors[1];
 
@@ -78,16 +56,16 @@ describe('XSS inspector', function() {
         expect(inspector.regex.test('http://www.example.com')).not.toBeTruthy();
       });
     });
-  });
+  });*/
 
-  describe('Javascript URI XSS Inspector', function() {
+  describe('Img Src XSS Inspector', function() {
 
-    var inspector = xss.inspectors[2];
+    var inspector = xss.inspectors[1];
 
     describe('The Regex', function() {
 
       it('should match when a parameter contains a javascript URI', function() {
-        expect(inspector.regex.test('http://www.example.com?q=javascript:prompt()')).toBeTruthy();
+        expect(inspector.regex.test('http://www.example.com?q=<img src>')).toBeTruthy();
       });
 
       it('should NOT match on this group of tests', function() {
