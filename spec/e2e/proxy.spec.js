@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 //var Host = require('../lib/hostSchema');
 var httpProxy = require('http-proxy');
-var createServer = require('../lib/proxyserver');
+var createServer = require('../../lib/proxyserver');
 var request = require('request');
 var proxy = null;
 var server = null;
@@ -55,7 +55,7 @@ var allowed_hosts = {
 io.on('connection', function(socket){});
 io.listen(3000);*/
 
-describe('Proxyserver', function() {
+describe('End 2 End, Proxyserver', function() {
 
   console.log(process.env.NODE_ENV);
   if (process.env.NODE_ENV === 'development') {
