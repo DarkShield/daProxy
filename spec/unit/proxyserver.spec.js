@@ -51,4 +51,40 @@ describe('Unit, Proxyserver', function() {
     expect(dstc).toBeDefined();
   });
 
+  it('should have a functioning setDstcCookie method with a dstc cookie', function() {
+    var setDstcCookie = proxy.__get__('setDstcCookie');
+    var overrideHeaders = jasmine.createSpy('overrideHeaders')
+    proxy.__set__('overrideHeaders', overrideHeaders);
+    var response = {setHeader: function(){}};
+    var cookies = {dstc: 1234};
+    var dstc = setDstcCookie(response, cookies);
+    expect(overrideHeaders).not.toHaveBeenCalled();
+    expect(dstc).toBeDefined();
+    expect(dstc).toBe(1234);
+  });
+
+  it('should have a functioning setRemoteIP method when forwarded', function() {
+    var setRemoteIP = proxy.__get__('setRemoteIP');
+    var request = {
+      headers: {'x-forwarded-for': '1.2.3.4'},
+      connection: {remoteAddress: '9.8.7.6'}
+    };
+    var remoteIP = setRemoteIP(request);
+
+    expect(remoteIP).toBeDefined();
+    expect(remoteIP).toBe('1.2.3.4');
+  });
+
+  it('should have a functioning setRemoteIP method when not forwarded', function() {
+    var setRemoteIP = proxy.__get__('setRemoteIP');
+    var request = {
+      headers: {},
+      connection: {remoteAddress: '9.8.7.6'}
+    };
+    var remoteIP = setRemoteIP(request);
+
+    expect(remoteIP).toBeDefined();
+    expect(remoteIP).toBe('9.8.7.6');
+  });
+
 });
