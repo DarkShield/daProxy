@@ -35,7 +35,14 @@ describe('Unit, Proxyserver', function() {
 
   it('should have a functioning overrideHeaders method', function() {
     var overrideHeaders = proxy.__get__('overrideHeaders');
+    var response = {
+      setHeader: {bind: function(){}}
+    };
     var outBoundCookies = ['dstc=1234'];
+
+    expect(typeof(response.setHeader)).toBe('object');
+    overrideHeaders(response, outBoundCookies);
+    expect(typeof(response.setHeader)).toBe('function');
 
   });
 
@@ -85,6 +92,88 @@ describe('Unit, Proxyserver', function() {
 
     expect(remoteIP).toBeDefined();
     expect(remoteIP).toBe('9.8.7.6');
+  });
+
+  it('should have a functioning handleRequest method when host is allowed', function() {
+    var request = {
+      headers: {host: 'www.mattjay.com'},
+      url: '/',
+      on: function(){}
+    };
+    var response = {
+      writeHead: function(){},
+      end: function(){}
+    };
+    var handleRequest = proxy.__get__('handleRequest');
+    var setRemoteIP = jasmine.createSpy('setRemoteIP');
+    proxy.__set__('setRemoteIP', setRemoteIP);
+    var setDstcCookie = jasmine.createSpy('setDstcCookie');
+    proxy.__set__('setDstcCookie', setDstcCookie);
+    var appendData = jasmine.createSpy('appendData');
+    var parseCookies = proxy.__get__('parseCookies');
+    proxy.__set__('appendData', appendData);
+    var attackCheckOnEnd = jasmine.createSpy('attackCheckOnEnd');
+    proxy.__set__('attackCheckOnEnd', attackCheckOnEnd);
+    proxy.__set__('Allowed_hosts', {wwwmattjaycom: 'enabled'});
+    proxy.__set__('Proxy', {web: function(){}});
+    var Proxy = proxy.__get__('Proxy');
+    spyOn(Proxy, 'web');
+    spyOn(request, 'on');
+
+    handleRequest(request, response);
+    expect(setRemoteIP).toHaveBeenCalled();
+    expect(setRemoteIP).toHaveBeenCalledWith(request);
+    expect(setDstcCookie).toHaveBeenCalled();
+    expect(setDstcCookie).toHaveBeenCalledWith(response, parseCookies(request));
+    expect(request.on).toHaveBeenCalled();
+    expect(request.on).toHaveBeenCalledWith('data', appendData);
+    expect(request.on).toHaveBeenCalledWith('end', attackCheckOnEnd);
+    expect(Proxy.web).toHaveBeenCalled();
+    expect(Proxy.web).toHaveBeenCalledWith(request, response, {target: 'http://www.mattjay.com:80/'});
+  });
+
+  it('should have a functioning handleRequest method when host is not allowed', function() {
+    var request = {
+      headers: {host: 'www.google.com'},
+      url: 'www.google.com/',
+      on: function(){}
+    };
+    var response = {
+      writeHead: function(){},
+      end: function(){}
+    };
+    var handleRequest = proxy.__get__('handleRequest');
+    proxy.__set__('Allowed_hosts', {wwwmattjaycom: 'enabled'});
+    spyOn(response, 'writeHead');
+    spyOn(response, 'end');
+
+    handleRequest(request, response);
+    expect(response.writeHead).toHaveBeenCalled();
+    expect(response.end).toHaveBeenCalled();
+  });
+
+  it('should have a functioning createServer method', function() {
+    var http = proxy.__get__('http');
+    spyOn(http, 'createServer').andReturn({listen: function(){}, close: function(){}});
+    var handleRequest = proxy.__get__('handleRequest');
+    var that = proxy();
+    spyOn(that, 'startServer').andCallThrough();
+    spyOn(that, 'stopServer').andCallThrough();
+    var server = that.server;
+    spyOn(server, 'listen');
+    spyOn(server, 'close');
+
+    expect(http.createServer).toHaveBeenCalled();
+    expect(http.createServer).toHaveBeenCalledWith(handleRequest);
+    expect(that).toBeDefined();
+    expect(that.startServer).toBeDefined();
+    expect(typeof(that.startServer)).toBe('function');
+    expect(that.stopServer).toBeDefined();
+    expect(typeof(that.stopServer)).toBe('function');
+    that.startServer();
+    expect(server.listen).toHaveBeenCalled();
+    that.stopServer();
+    expect(server.close).toHaveBeenCalled();
   });
 
 });
