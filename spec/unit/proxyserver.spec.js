@@ -33,4 +33,22 @@ describe('Unit, Proxyserver', function() {
     expect(attack.check).toHaveBeenCalledWith(event);
   });
 
+  it('should have a functioning overrideHeaders method', function() {
+    var overrideHeaders = proxy.__get__('overrideHeaders');
+    var outBoundCookies = ['dstc=1234'];
+
+  });
+
+  it('should have a functioning setDstcCookie method with no dstc cookie', function() {
+    var setDstcCookie = proxy.__get__('setDstcCookie');
+    var overrideHeaders = jasmine.createSpy('overrideHeaders')
+    proxy.__set__('overrideHeaders', overrideHeaders);
+    var response = {setHeader: function(){}};
+    var cookies = {};
+    var dstc = setDstcCookie(response, cookies);
+    expect(overrideHeaders).toHaveBeenCalled();
+    expect(overrideHeaders).toHaveBeenCalledWith(response, ["dstc="+dstc]);
+    expect(dstc).toBeDefined();
+  });
+
 });
