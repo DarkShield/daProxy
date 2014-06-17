@@ -13,7 +13,8 @@
   },
   "devDependencies": {
     "jasmine-node": "latest",
-    "request": "2.27.0"
+    "request": "2.27.0",
+    "rewire": "2.0.1"
   },
   "scripts": {
     "start": "./node_modules/pm2/bin/pm2 start startproxy.js -i max -u root && ./node_modules/pm2/bin/pm2 logs",
