@@ -32,7 +32,7 @@ describe('Unit, Start Proxy', function() {
     var obj = {createServer: function() {
       return {
         on: function(){},
-        startServer: startServer//function(){}
+        startServer: startServer
       };
     }};
     spyOn(obj, 'createServer').andCallThrough();
