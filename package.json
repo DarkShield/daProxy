@@ -13,18 +13,12 @@
   },
   "devDependencies": {
     "grunt": "^0.4.5",
-    "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-jasmine-node-coverage": "^0.1.11",
-    "install": "^0.1.7",
-    "jasmine-node": "latest",
-    "matchdep": "^0.3.0",
-    "npm": "^1.4.15",
-    "request": "2.27.0",
+    "grunt-jasmine-node-coverage-validation": "0.0.4",
     "rewire": "2.0.1"
   },
   "scripts": {
     "start": "./node_modules/pm2/bin/pm2 start startproxy.js -i max -u root && ./node_modules/pm2/bin/pm2 logs",
-    "test": "jasmine-node ./spec"
+    "test": "grunt test:unit && jasmine-node spec/ --forceexit"
   }
 }
