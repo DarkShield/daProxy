@@ -1,8 +1,9 @@
 var httpProxy = require('http-proxy'),
-createServer = require('./lib/proxyserver'),
-mongoose = require('mongoose'),
-Host = require('./lib/hostSchema'),
-port = 8080;
+  createServer = require('./lib/proxyserver'),
+  mongoose = require('mongoose'),
+  Host = require('./lib/hostSchema'),
+  allowed_hosts = {},
+  port = 8080;
 
 if (process.env.NODE_ENV === 'development'){
   mongoose.connect('localhost', 'vicetest');
@@ -19,8 +20,6 @@ else {
   mongoose.connect('10.136.20.210', 'proxytest');
 }
 
-var allowed_hosts = {};
-
 var initialize = function(err, hosts) {
   if(!err) {
     for (var i = 0; i < hosts.length; i++) {
@@ -30,10 +29,10 @@ var initialize = function(err, hosts) {
     var proxy = httpProxy.createProxyServer();
     var server = createServer(proxy, allowed_hosts, port);
 
-    //WebSocket Support
+    /*WebSocket Support
     server.on('upgrade', function (req, socket, head) {
       proxy.ws(req, socket, head);
-    });
+    });*/
 
     server.startServer();
   }
