@@ -5,16 +5,22 @@ var rewire = require("rewire");
 var startproxy = rewire('../../startproxy');
 
 describe('Unit, Start Proxy', function() {
-  it('should have a correct default port property', function() {
+  it('should have a correct default port global', function() {
     var port = startproxy.__get__('port');
     expect(port).toBe(8080);
   });
 
-  it('should have an allowed_hosts property', function() {
+  it('should have an allowed_hosts global', function() {
     var allowed_hosts = startproxy.__get__('allowed_hosts');
     expect(allowed_hosts).toBeDefined();
     expect(typeof(allowed_hosts)).toBe('object');
-  })
+  });
+
+  it('should have an sweepList global', function() {
+    var sweepList = startproxy.__get__('sweepList');
+    expect(sweepList).toBeDefined();
+    expect(sweepList.length).toEqual(0);
+  });
 
   it('should have a properly functioning initialize method', function() {
     var initialize = startproxy.__get__('initialize');

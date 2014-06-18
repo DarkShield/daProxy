@@ -3,6 +3,7 @@ var httpProxy = require('http-proxy'),
   mongoose = require('mongoose'),
   Host = require('./lib/hostSchema'),
   allowed_hosts = {},
+  sweepList = [],
   port = 8080;
 
 if (process.env.NODE_ENV === 'development'){
