@@ -21,7 +21,7 @@ else {
 
 var allowed_hosts = {};
 
-Host.find({}, function(err, hosts) {
+var initialize = function(err, hosts) {
   if(!err) {
     for (var i = 0; i < hosts.length; i++) {
       allowed_hosts[hosts[i].hostname] = hosts[i].status;
@@ -37,4 +37,6 @@ Host.find({}, function(err, hosts) {
 
     server.startServer();
   }
-});
+};
+
+Host.find({}, initialize);
