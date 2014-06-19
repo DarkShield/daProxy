@@ -9,6 +9,8 @@
     "pm2": "0.6.8",
     "newrelic": "latest",
     "http-proxy": "~1.0.1",
+    "jasmine-node": "latest",
+    "request": "2.27.0",
     "uuid": "1.4.1"
   },
   "devDependencies": {
