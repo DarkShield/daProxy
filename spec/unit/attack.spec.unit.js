@@ -46,4 +46,13 @@ describe('Attack check & DB write', function() {
     expect(db.requestWriter).toHaveBeenCalled();
   });
 
+  it('builds correct reqObj when RCE attack is present', function() {
+    var reqObj = {url: 'http://www.example.com/cgi-bin/php?-d+allow_url_include=on+-d+safe_mode=off+-d+suhosin.simulation=on+-d+disable_functions=""+-d+open_basedir=none+-d+auto_prepend_file=php://input+-d+cgi.force_redirect=0+-d+cgi.redirect_status_env=0+-n', body: ''};
+    spyOn(db, 'requestWriter');
+
+    attack.check(reqObj);
+    expect(reqObj.attacks.length).not.toEqual(0);
+    expect(db.requestWriter).toHaveBeenCalled();
+  });
+
 });
