@@ -23,13 +23,15 @@ else {
   mongoose.connect('10.136.20.210', 'proxytest');
 }
 
-var checkBlocks = function() {
-
-};
-
 var updateBlocks = function(err, hosts) {
 
 };
+
+var checkBlocks = function() {
+  Host.find({}, updateBlocks);
+};
+
+
 
 var initialize = function(err, hosts) {
   if(!err) {
@@ -46,6 +48,9 @@ var initialize = function(err, hosts) {
     });*/
 
     server.startServer();
+
+    //This connects to the db and checks for new blocks
+    setInterval(checkBlocks, 1000);
   }
 };
 

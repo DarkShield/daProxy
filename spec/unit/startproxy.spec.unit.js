@@ -24,7 +24,12 @@ describe('Unit, Start Proxy', function() {
 
   it('should have a properly functioning checkBlocks method', function() {
     var checkBlocks = startproxy.__get__('checkBlocks');
+    var mockfind = jasmine.createSpy('find');
+    startproxy.__set__('Host', {find: mockfind});
+    checkBlocks();
+
     expect(typeof(checkBlocks)).toBe('function');
+    expect(mockfind).toHaveBeenCalled();
   });
 
   it('should have a properly functioning updateBlocks method', function() {
