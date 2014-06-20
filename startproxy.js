@@ -23,6 +23,14 @@ else {
   mongoose.connect('10.136.20.210', 'proxytest');
 }
 
+var checkBlocks = function() {
+
+};
+
+var updateBlocks = function(err, hosts) {
+
+};
+
 var initialize = function(err, hosts) {
   if(!err) {
     for (var i = 0; i < hosts.length; i++) {
