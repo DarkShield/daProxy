@@ -22,7 +22,7 @@ describe('Unit, Start Proxy', function() {
     expect(sweepList.length).toEqual(0);
   });
 
-  it('should connect to the proper db in development', function() {
+ /* it('should connect to the proper db in development', function() {
     var env = 'development';
     var envPort = 8080;
     //startproxy.__set__('env', env);
@@ -37,7 +37,7 @@ describe('Unit, Start Proxy', function() {
 
     expect(mockconnect).toHaveBeenCalledWith('localhost', 'vicetest');
 
-  });
+  });*/
 
   it('should have a properly functioning checkBlocks method', function() {
     var checkBlocks = startproxy.__get__('checkBlocks');
