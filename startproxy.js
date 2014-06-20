@@ -24,7 +24,14 @@ else {
 }
 
 var updateBlocks = function(err, hosts) {
-
+  if(!err) {
+    //compare allowed_hosts to new values
+    //if different push new blocks addBlackListIP(domain, ip, time)
+    //push to sweeplist
+  }
+  else {
+    //may need to reconnect to db
+  }
 };
 
 var checkBlocks = function() {

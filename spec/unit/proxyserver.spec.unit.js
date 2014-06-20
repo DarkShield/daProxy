@@ -159,6 +159,8 @@ describe('Unit, Proxyserver', function() {
     var that = proxy();
     spyOn(that, 'startServer').andCallThrough();
     spyOn(that, 'stopServer').andCallThrough();
+    spyOn(that, 'addBlackListIP').andCallThrough();
+    spyOn(that, 'getRequests').andCallThrough();
     var server = that.server;
     spyOn(server, 'listen');
     spyOn(server, 'close');
@@ -174,6 +176,10 @@ describe('Unit, Proxyserver', function() {
     expect(server.listen).toHaveBeenCalled();
     that.stopServer();
     expect(server.close).toHaveBeenCalled();
+    expect(that.addBlackListIP).toBeDefined();
+    expect(typeof(that.addBlackListIP)).toBe('function');
+    expect(that.getRequests).toBeDefined();
+    expect(typeof(that.getRequests)).toBe('function');
   });
 
 });
