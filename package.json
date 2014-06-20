@@ -20,7 +20,7 @@
     "rewire": "2.0.1"
   },
   "scripts": {
-    "start": "./node_modules/pm2/bin/pm2 start startproxy.js -i max -u root && ./node_modules/pm2/bin/pm2 logs",
+    "start": "./node_modules/pm2/bin/pm2 start app.js -i max -u root && ./node_modules/pm2/bin/pm2 logs",
     "test": "grunt test:unit && jasmine-node spec/ --forceexit"
   }
 }

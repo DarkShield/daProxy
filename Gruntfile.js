@@ -5,10 +5,10 @@ module.exports = function(grunt) {
       coverage: {
         options : {
           failTask: true,
-          branches : 67 ,
-          functions: 83,
-          statements:90,
-          lines:95
+          branches : 83 ,
+          functions: 98,
+          statements:99,
+          lines:99
         }
       },
       options: {

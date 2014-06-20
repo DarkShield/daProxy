@@ -2,11 +2,16 @@
  * Created by mattjohansen on 6/16/14.
  */
 var rewire = require("rewire");
-var proxy = rewire('../../lib/proxyserver');
 var events = require('events');
 
 
 describe('Unit, Proxyserver', function() {
+  var proxy = null
+
+  beforeEach(function(){
+    proxy = rewire('../../lib/proxyserver');
+  });
+
 
   it('should have a functioning appendData method', function() {
     var eventEmitter = new events.EventEmitter();
@@ -36,7 +41,7 @@ describe('Unit, Proxyserver', function() {
   it('should have a functioning overrideHeaders method', function() {
     var overrideHeaders = proxy.__get__('overrideHeaders');
     var response = {
-      setHeader: {bind: function(){}}
+      setHeader: {bind:jasmine.createSpy('test')}
     };
     var outBoundCookies = ['dstc=1234'];
 
@@ -50,7 +55,7 @@ describe('Unit, Proxyserver', function() {
     var setDstcCookie = proxy.__get__('setDstcCookie');
     var overrideHeaders = jasmine.createSpy('overrideHeaders')
     proxy.__set__('overrideHeaders', overrideHeaders);
-    var response = {setHeader: function(){}};
+    var response = {setHeader: jasmine.createSpy('test')};
     var cookies = {};
     var dstc = setDstcCookie(response, cookies);
     expect(overrideHeaders).toHaveBeenCalled();
@@ -62,7 +67,7 @@ describe('Unit, Proxyserver', function() {
     var setDstcCookie = proxy.__get__('setDstcCookie');
     var overrideHeaders = jasmine.createSpy('overrideHeaders')
     proxy.__set__('overrideHeaders', overrideHeaders);
-    var response = {setHeader: function(){}};
+    var response = {setHeader: jasmine.createSpy('test')};
     var cookies = {dstc: 1234};
     var dstc = setDstcCookie(response, cookies);
     expect(overrideHeaders).not.toHaveBeenCalled();
@@ -98,11 +103,11 @@ describe('Unit, Proxyserver', function() {
     var request = {
       headers: {host: 'www.mattjay.com'},
       url: '/',
-      on: function(){}
+      on: jasmine.createSpy('test')
     };
     var response = {
-      writeHead: function(){},
-      end: function(){}
+      writeHead: jasmine.createSpy('test'),
+      end: jasmine.createSpy('test')
     };
     var handleRequest = proxy.__get__('handleRequest');
     var setRemoteIP = jasmine.createSpy('setRemoteIP');
@@ -115,10 +120,10 @@ describe('Unit, Proxyserver', function() {
     var attackCheckOnEnd = jasmine.createSpy('attackCheckOnEnd');
     proxy.__set__('attackCheckOnEnd', attackCheckOnEnd);
     proxy.__set__('Allowed_hosts', {wwwmattjaycom: 'enabled'});
-    proxy.__set__('Proxy', {web: function(){}});
+    proxy.__set__('Proxy', {web: jasmine.createSpy('test')});
     var Proxy = proxy.__get__('Proxy');
-    spyOn(Proxy, 'web');
-    spyOn(request, 'on');
+    //spyOn(Proxy, 'web');
+    //spyOn(request, 'on');
 
     handleRequest(request, response);
     expect(setRemoteIP).toHaveBeenCalled();
@@ -136,90 +141,107 @@ describe('Unit, Proxyserver', function() {
     var request = {
       headers: {host: 'www.google.com'},
       url: 'www.google.com/',
-      on: function(){}
+      on: jasmine.createSpy('test')
     };
     var response = {
-      writeHead: function(){},
-      end: function(){}
+      writeHead: jasmine.createSpy('test'),
+      end: jasmine.createSpy('test')
     };
     var handleRequest = proxy.__get__('handleRequest');
     proxy.__set__('Allowed_hosts', {'wwwmattjaycom': 'enabled'});
-    spyOn(response, 'writeHead');
-    spyOn(response, 'end');
+    //spyOn(response, 'writeHead');
+    //spyOn(response, 'end');
 
     handleRequest(request, response);
     expect(response.writeHead).toHaveBeenCalled();
     expect(response.end).toHaveBeenCalled();
   });
 
-  describe('Create Server', function(){
-    var http,
-        handleRequest,
-        allowed_hosts,
-        Allowed_hosts,
-        port,
-        Port,
-        _proxy,
-        Proxy;
+  describe('Proxyserver\'s createServer class', function(){
+    var http,handleRequest,allowed_hosts,Allowed_hosts,port,_proxy,Proxy = null
 
     beforeEach(function(){
       http = proxy.__get__('http');
-      handleRequest = proxy.__get__('handleRequest');
       Proxy = proxy.__get__('Proxy');
-      Allowed_hosts = proxy__get__('Allowed_hosts');
-      spyOn(http, 'createServer').andReturn({listen: function(){}, close: function(){}});
+      handleRequest = proxy.__get__('handleRequest');
+      Allowed_hosts = proxy.__get__('Allowed_hosts');
+      _proxy = {on: 'fakeproxy'};
+      allowed_hosts = {'wwwmattjaycom':'enabled'};
+      port = 9999;
 
-
-    });
+      spyOn(http, 'createServer').andReturn({listen: jasmine.createSpy('test'), close: jasmine.createSpy('test')});
+     });
 
     it('should properly set Proxy and Allowed_hosts globals', function(){
-      console.log(Proxy);
+      expect(Proxy).toBe(null);
+      expect(Proxy).not.toBe({on:'fakeproxy'});
+
+      expect(Allowed_hosts).toBe(null);
+      expect(Allowed_hosts).not.toEqual({'wwwmattjaycom': 'enabled'});
+
+      _proxy = proxy(_proxy, allowed_hosts, port);
+      Proxy = proxy.__get__('Proxy');
+      Allowed_hosts = proxy.__get__('Allowed_hosts');
+      expect(Proxy).toEqual({on:'fakeproxy'});
+      expect(Allowed_hosts).toEqual({'wwwmattjaycom':'enabled'});
     });
 
     it('should call http.createServer with the correct listener',function(){
-
+      expect(http.createServer).not.toHaveBeenCalled();
+      _proxy = proxy(_proxy, allowed_hosts, port);
+      expect(http.createServer).toHaveBeenCalledWith(handleRequest);
     });
 
+    it('should return an object with a server property', function(){
+      expect(_proxy.server).toBe(undefined);
+      _proxy = proxy(_proxy, allowed_hosts, port);
+      expect(_proxy.server.listen).toBeDefined();
+    });
+
+    it('should return an object with a functioning startServer method', function(){
+      expect(_proxy.startServer).toBe(undefined);
+      _proxy = proxy(_proxy, allowed_hosts, port);
+      expect(typeof _proxy.startServer).toBe('function');
+
+      //spyOn(_proxy.server,'listen');
+      _proxy.startServer();
+      expect(_proxy.server.listen).toHaveBeenCalledWith(port);
+    });
+
+    it('should return an object with a functioning stopServer method', function(){
+      expect(_proxy.stopServer).toBe(undefined);
+      _proxy = proxy(_proxy, allowed_hosts, port);
+      expect(typeof _proxy.stopServer).toBe('function');
+
+      //spyOn(_proxy.server,'close');
+      _proxy.stopServer();
+      expect(_proxy.server.close).toHaveBeenCalled();
+    });
+
+    it('should return an object with a functioning addBlacklistIP method', function(){
+      allowed_hosts = {'wwwmattjaycom': {status: 'enabled', blacklist: []}};
+      expect(_proxy.addBlackListIP).toBeUndefined();
+
+      _proxy = proxy(_proxy, allowed_hosts, port);
+
+      expect(typeof _proxy.addBlackListIP).toBe('function');
+
+      Allowed_hosts = proxy.__get__('Allowed_hosts');
+      expect(Allowed_hosts).toEqual({'wwwmattjaycom': {status: 'enabled', blacklist: []}});
+      var domain = 'wwwmattjaycom';
+      var ip = '1.2.3.4';
+      var time = '1000';
+      _proxy.addBlackListIP(domain, ip, time);
+      Allowed_hosts = proxy.__get__('Allowed_hosts');
+      expect(Allowed_hosts.wwwmattjaycom.blacklist[0].ip).toEqual(time);
+    });
+
+    it('should return an object with a functioning getRequests method', function(){
+      expect(_proxy.getRequests).toBeUndefined();
+
+      _proxy = proxy(_proxy, allowed_hosts, port);
+
+      expect(_proxy.getRequests().length).toBe(0);
+    });
   });
-
-  xit('should have a functioning createServer method', function() {
-    var http = proxy.__get__('http');
-    spyOn(http, 'createServer').andReturn({listen: function(){}, close: function(){}});
-    var handleRequest = proxy.__get__('handleRequest');
-    var allowed_hosts = {'wwwmattjaycom': {status: 'enabled', blacklist: []}};
-    proxy.__set__('Allowed_hosts', allowed_hosts);
-    var domain = 'wwwmattjaycom';
-    var ip = '1.2.3.4';
-    var time = '1000';
-    var that = proxy();
-    spyOn(that, 'startServer').andCallThrough();
-    spyOn(that, 'stopServer').andCallThrough();
-    spyOn(that, 'addBlackListIP').andCallThrough();
-    spyOn(that, 'getRequests').andCallThrough();
-    var server = that.server;
-    spyOn(server, 'listen');
-    spyOn(server, 'close');
-
-    expect(http.createServer).toHaveBeenCalled();
-    expect(http.createServer).toHaveBeenCalledWith(handleRequest);
-    expect(that).toBeDefined();
-    expect(that.startServer).toBeDefined();
-    expect(typeof(that.startServer)).toBe('function');
-    expect(that.stopServer).toBeDefined();
-    expect(typeof(that.stopServer)).toBe('function');
-    that.startServer();
-    expect(server.listen).toHaveBeenCalled();
-    that.stopServer();
-    expect(server.close).toHaveBeenCalled();
-    expect(that.addBlackListIP).toBeDefined();
-    expect(typeof(that.addBlackListIP)).toBe('function');
-    expect(allowed_hosts[domain].blacklist.length).toBe(0);
-    that.addBlackListIP(domain, ip, time);
-    expect(allowed_hosts[domain].blacklist[0]).toBe({ip: time});
-    expect(that.getRequests).toBeDefined();
-    expect(typeof(that.getRequests)).toBe('function');
-    var requests = that.getRequests();
-    expect(requests.length).toBeDefined();
-  });
-
 });

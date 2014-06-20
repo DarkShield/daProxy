@@ -2,13 +2,13 @@ var httpProxy = require('http-proxy'),
   createServer = require('./lib/proxyserver'),
   mongoose = require('mongoose'),
   Host = require('./lib/hostSchema'),
-  //env = process.env.NODE_ENV,
-  //envPort = process.env.PORT,
+  env = process.env.NODE_ENV,
+  envPort = process.env.PORT,
   allowed_hosts = {},
   sweepList = [],
   port = 8080;
 
-var dbConnect = function(env, envPort) {
+module.exports = function dbConnect() {
   if (env === 'development'){
     mongoose.connect('localhost', 'vicetest');
     if (envPort) {
@@ -24,8 +24,6 @@ var dbConnect = function(env, envPort) {
     mongoose.connect('10.136.20.210', 'proxytest');
   }
 };
-
-dbConnect(process.env.NODE_ENV, process.env.PORT);
 
 var updateBlocks = function(err, hosts) {
   if(!err) {
