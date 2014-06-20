@@ -22,6 +22,23 @@ describe('Unit, Start Proxy', function() {
     expect(sweepList.length).toEqual(0);
   });
 
+  it('should connect to the proper db in development', function() {
+    var env = 'development';
+    var envPort = 8080;
+    //startproxy.__set__('env', env);
+    //startproxy.__set__('envPort', envPort);
+    var dbConnect = startproxy.__get__('dbConnect');
+    var mongoose = startproxy.__get__('mongoose');
+    var obj = {mongoose: mongoose};
+    var mockconnect = jasmine.createSpy('connect');
+    spyOn(obj, 'mongoose').andReturn({connect: mockconnect});
+    startproxy.__set__('mongoose', mongoose);
+    dbConnect(env, envPort);
+
+    expect(mockconnect).toHaveBeenCalledWith('localhost', 'vicetest');
+
+  });
+
   it('should have a properly functioning checkBlocks method', function() {
     var checkBlocks = startproxy.__get__('checkBlocks');
     var mockfind = jasmine.createSpy('find');
@@ -36,23 +53,6 @@ describe('Unit, Start Proxy', function() {
     var updateBlocks = startproxy.__get__('updateBlocks');
     expect(typeof(updateBlocks)).toBe('function');
   });
-
-  /*it('should connect to the proper db in development', function() {
-    var env = 'development';
-    var envPort = 8080;
-    var init = startproxy.__get__('init');
-    //startproxy.__set__('env', env);
-    //startproxy.__set__('envPort', 8080);
-    var mongoose = startproxy.__get__('mongoose');
-    var obj = {mongoose: mongoose};
-    var mockconnect = jasmine.createSpy('connect');
-    spyOn(obj, 'mongoose').andReturn({connect: mockconnect});
-    startproxy.__set__('mongoose', mongoose);
-    init(env, envPort);
-
-    expect(mockconnect).toHaveBeenCalledWith('localhost', 'vicetest');
-
-  });*/
 
   it('should have a properly functioning initialize method', function() {
     var initialize = startproxy.__get__('initialize');
