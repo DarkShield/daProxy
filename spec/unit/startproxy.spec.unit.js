@@ -22,6 +22,16 @@ describe('Unit, Start Proxy', function() {
     expect(sweepList.length).toEqual(0);
   });
 
+  it('should have a properly functioning checkBlocks method', function() {
+    var checkBlocks = startproxy.__get__('checkBlocks');
+    expect(typeof(checkBlocks)).toBe('function');
+  });
+
+  it('should have a properly functioning updateBlocks method', function() {
+    var updateBlocks = startproxy.__get__('updateBlocks');
+    expect(typeof(updateBlocks)).toBe('function');
+  });
+
   /*it('should connect to the proper db in development', function() {
     var env = 'development';
     var envPort = 8080;
