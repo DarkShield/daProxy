@@ -2,17 +2,19 @@ var httpProxy = require('http-proxy'),
   createServer = require('./lib/proxyserver'),
   mongoose = require('mongoose'),
   Host = require('./lib/hostSchema'),
+  env = process.env.NODE_ENV,
+  envPort = process.env.PORT,
   allowed_hosts = {},
   sweepList = [],
   port = 8080;
 
-if (process.env.NODE_ENV === 'development'){
+if (env === 'development'){
   mongoose.connect('localhost', 'vicetest');
-  if (process.env.PORT) {
-    port = process.env.PORT;
+  if (envPort) {
+    port = envPort;
   }
 }
-else if (process.env.NODE_ENV === 'production'){
+else if (env === 'production'){
   require('newrelic');
   mongoose.connect('10.136.20.210', 'vicetest');
   port = 80;

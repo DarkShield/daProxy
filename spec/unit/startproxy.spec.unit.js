@@ -22,6 +22,23 @@ describe('Unit, Start Proxy', function() {
     expect(sweepList.length).toEqual(0);
   });
 
+  /*it('should connect to the proper db in development', function() {
+    var env = 'development';
+    var envPort = 8080;
+    var init = startproxy.__get__('init');
+    //startproxy.__set__('env', env);
+    //startproxy.__set__('envPort', 8080);
+    var mongoose = startproxy.__get__('mongoose');
+    var obj = {mongoose: mongoose};
+    var mockconnect = jasmine.createSpy('connect');
+    spyOn(obj, 'mongoose').andReturn({connect: mockconnect});
+    startproxy.__set__('mongoose', mongoose);
+    init(env, envPort);
+
+    expect(mockconnect).toHaveBeenCalledWith('localhost', 'vicetest');
+
+  });*/
+
   it('should have a properly functioning initialize method', function() {
     var initialize = startproxy.__get__('initialize');
     var httpProxy = startproxy.__get__('httpProxy');
@@ -46,7 +63,6 @@ describe('Unit, Start Proxy', function() {
     expect(obj.createServer.mostRecentCall.args[1]).toEqual({'wwwmattjaycom': 'enabled'});
     expect(obj.createServer.mostRecentCall.args[2]).toEqual(8080);
     expect(startServer).toHaveBeenCalled();
-
   });
 
 
