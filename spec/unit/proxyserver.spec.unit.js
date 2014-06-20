@@ -143,7 +143,7 @@ describe('Unit, Proxyserver', function() {
       end: function(){}
     };
     var handleRequest = proxy.__get__('handleRequest');
-    proxy.__set__('Allowed_hosts', {wwwmattjaycom: 'enabled'});
+    proxy.__set__('Allowed_hosts', {'wwwmattjaycom': 'enabled'});
     spyOn(response, 'writeHead');
     spyOn(response, 'end');
 
@@ -152,11 +152,41 @@ describe('Unit, Proxyserver', function() {
     expect(response.end).toHaveBeenCalled();
   });
 
-  it('should have a functioning createServer method', function() {
+  describe('Create Server', function(){
+    var http,
+        handleRequest,
+        allowed_hosts,
+        Allowed_hosts,
+        port,
+        Port,
+        _proxy,
+        Proxy;
+
+    beforeEach(function(){
+      http = proxy.__get__('http');
+      handleRequest = proxy.__get__('handleRequest');
+      Proxy = proxy.__get__('Proxy');
+      Allowed_hosts = proxy__get__('Allowed_hosts');
+      spyOn(http, 'createServer').andReturn({listen: function(){}, close: function(){}});
+
+
+    });
+
+    it('should properly set Proxy and Allowed_hosts globals', function(){
+      console.log(Proxy);
+    });
+
+    it('should call http.createServer with the correct listener',function(){
+
+    });
+
+  });
+
+  xit('should have a functioning createServer method', function() {
     var http = proxy.__get__('http');
     spyOn(http, 'createServer').andReturn({listen: function(){}, close: function(){}});
     var handleRequest = proxy.__get__('handleRequest');
-    var allowed_hosts = {'wwwmattjaycom': {status: 'enabled', blacklist: []}}
+    var allowed_hosts = {'wwwmattjaycom': {status: 'enabled', blacklist: []}};
     proxy.__set__('Allowed_hosts', allowed_hosts);
     var domain = 'wwwmattjaycom';
     var ip = '1.2.3.4';

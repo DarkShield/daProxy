@@ -53,3 +53,11 @@ docker tag proxy darkdocker.darkshield.io:49154/proxy
 docker push darkdocker.darkshield.io:49154/proxy
 ```
 
+***manual testing***
+To make grunt easier to configure we use some custom file names for unit tests. If you want to run the unit tests manually you will need to use the --matchall flag this tells jasmine to run all .js files it is passed ex.
+```bash
+jasmine-node --matchall spec/unit/proxyserver.spec.unit.js
+#or
+jasmine-node --matchall spec/unit/
+```
+
