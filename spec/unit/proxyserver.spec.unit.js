@@ -218,22 +218,26 @@ describe('Unit, Proxyserver', function() {
       expect(_proxy.server.close).toHaveBeenCalled();
     });
 
-    it('should return an object with a functioning addBlacklistIP method', function(){
+    it('should return an object with a functioning updateBlacklist method', function(){
       allowed_hosts = {'wwwmattjaycom': {status: 'enabled', blacklist: []}};
-      expect(_proxy.addBlackListIP).toBeUndefined();
+      expect(_proxy.updateBlacklist).toBeUndefined();
 
       _proxy = proxy(_proxy, allowed_hosts, port);
 
-      expect(typeof _proxy.addBlackListIP).toBe('function');
+      expect(typeof _proxy.updateBlacklist).toBe('function');
 
       Allowed_hosts = proxy.__get__('Allowed_hosts');
       expect(Allowed_hosts).toEqual({'wwwmattjaycom': {status: 'enabled', blacklist: []}});
       var domain = 'wwwmattjaycom';
       var ip = '1.2.3.4';
       var time = '1000';
-      _proxy.addBlackListIP(domain, ip, time);
+      var blacklist = [];
+      var obj = {};
+      obj[ip] = time;
+      blacklist.push(obj);
+      _proxy.updateBlacklist(domain, blacklist);
       Allowed_hosts = proxy.__get__('Allowed_hosts');
-      expect(Allowed_hosts.wwwmattjaycom.blacklist[0].ip).toEqual(time);
+      expect(Allowed_hosts.wwwmattjaycom.blacklist[0][ip]).toEqual(time);
     });
 
     it('should return an object with a functioning getRequests method', function(){

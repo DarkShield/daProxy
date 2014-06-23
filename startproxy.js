@@ -6,6 +6,7 @@ var httpProxy = require('http-proxy'),
   envPort = process.env.PORT,
   allowed_hosts = {},
   sweepList = [],
+  server = {},
   port = 8080;
 
 module.exports = function dbConnect() {
@@ -27,8 +28,12 @@ module.exports = function dbConnect() {
 
 var updateBlocks = function(err, hosts) {
   if(!err) {
-    //compare allowed_hosts to new values
-    //if different push new blocks addBlackListIP(domain, ip, time)
+    for(var i = 0; i < hosts.length; i++) {
+      server.updateBlacklist(hosts[i].hostname, hosts[i].blacklist);
+      for (var t = 0; t < hosts[i].blacklist.length; t++) {
+        sweepList.push(hosts[i].blacklist[t].ip);
+      }
+    }
     //push to sweeplist
   }
   else {
@@ -49,7 +54,7 @@ var initialize = function(err, hosts) {
     }
 
     var proxy = httpProxy.createProxyServer();
-    var server = createServer(proxy, allowed_hosts, port);
+    server = createServer(proxy, allowed_hosts, port);
 
     /*WebSocket Support
     server.on('upgrade', function (req, socket, head) {

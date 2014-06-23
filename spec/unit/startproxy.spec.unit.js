@@ -85,9 +85,34 @@ describe('Unit, Start Proxy', function() {
     expect(mockfind).toHaveBeenCalled();
   });
 
-  it('should have a properly functioning updateBlocks method', function() {
-    var updateBlocks = startproxy.__get__('updateBlocks');
-    expect(typeof(updateBlocks)).toBe('function');
+  describe('updateBlocks', function() {
+    var init_allowed_hosts, updateBlocks, server = null;
+
+    beforeEach(function() {
+      updateBlocks = startproxy.__get__('updateBlocks');
+      init_allowed_hosts = {'wwwmattjaycom': {status: 'enabled', blacklist: [{'1.2.3.4': 1000}]}}
+      startproxy.__set__('allowed_hosts', init_allowed_hosts);
+      server = {updateBlacklist: jasmine.createSpy('updateBlacklist')}
+      startproxy.__set__('server', server);
+    });
+
+    afterEach(function() {
+      server = null;
+    });
+
+    it('should have a properly functioning updateBlocks method with no error and new ips', function() {
+      expect(typeof(updateBlocks)).toBe('function');
+
+      var err = null;
+      var hosts = [{
+        hostname: 'wwwmattjaycom',
+        status: 'enabled',
+        blacklist: [{'1.2.3.4': 1000}, {'9.8.7.6': 1000}]
+      }];
+      updateBlocks(err, hosts);
+      expect(server.updateBlacklist).toHaveBeenCalledWith(hosts[0].hostname, hosts[0].blacklist);
+    });
+
   });
 
   it('should have a properly functioning initialize method', function() {
