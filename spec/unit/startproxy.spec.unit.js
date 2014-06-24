@@ -187,5 +187,7 @@ describe('Unit, Start Proxy', function() {
     expect(obj.createServer.mostRecentCall.args[1]).toEqual({'wwwmattjaycom': 'enabled'});
     expect(obj.createServer.mostRecentCall.args[2]).toEqual(8080);
     expect(startServer).toHaveBeenCalled();
+
+    //TODO: add tests for set Intervals with jasmine's tick feature
   });
 });
