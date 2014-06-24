@@ -118,6 +118,31 @@ describe('Unit, Start Proxy', function() {
     });
   });
 
+  it('should have a properly functioning kill method', function() {
+    var kill = null;
+    kill = startproxy.__get__('kill');
+    expect(typeof(kill)).toBe('function');
+
+    var requests = {
+      splice: jasmine.createSpy('splice'),
+      indexOf: jasmine.createSpy('indexOf')
+    }
+    startproxy.__set__('requests', requests);
+    var sweepList = ['1.2.3.4'];
+    startproxy.__set__('sweepList', sweepList);
+    var req = {
+      socket: {
+        remoteAddress: '1.2.3.4',
+        end: jasmine.createSpy('end')
+      }
+    };
+    kill(req);
+
+    expect(req.socket.end).toHaveBeenCalled();
+    expect(requests.splice).toHaveBeenCalled();
+    expect(requests.indexOf).toHaveBeenCalled();
+  });
+
   describe('sweep', function() {
     var server, sweep = null;
 
