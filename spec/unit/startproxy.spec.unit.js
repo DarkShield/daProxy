@@ -116,7 +116,26 @@ describe('Unit, Start Proxy', function() {
       expect(server.updateBlacklist).toHaveBeenCalledWith(hosts[0].hostname, hosts[0].blacklist);
       expect(sweepList.length).toBe(2);
     });
+  });
 
+  describe('sweep', function() {
+    var server, sweep = null;
+
+    beforeEach(function() {
+      sweep = startproxy.__get__('sweep');
+      server = {getRequests: function(){}};
+      startproxy.__set__('server', server);
+    });
+
+    it('should have a properly functioning sweep method when there are no requests', function() {
+      expect(typeof(sweep)).toBe('function');
+      startproxy.__set__('sweepList', ['1.2.3.4']);
+      var requests = {forEach: jasmine.createSpy('forEach')};
+      spyOn(server, 'getRequests').andReturn(requests);
+      sweep();
+      expect(server.getRequests).toHaveBeenCalled();
+      expect(requests.forEach).not.toHaveBeenCalled();
+    });
   });
 
   it('should have a properly functioning initialize method', function() {

@@ -6,6 +6,7 @@ var httpProxy = require('http-proxy'),
   envPort = process.env.PORT,
   allowed_hosts = {},
   sweepList = [],
+  requests = [],
   server = {},
   port = 8080;
 
@@ -46,6 +47,19 @@ var checkBlocks = function() {
   Host.find({}, updateBlocks);
 };
 
+var kill = function (req) {
+  if (sweepList.indexOf(req.socket.remoteAddress) > -1) {
+    req.socket.end();
+    requests.splice(requests.indexOf(req),1);
+  };
+};
+
+var sweep = function() {
+  requests = server.getRequests();
+  if (sweepList.length > 0 && requests.length > 0) {
+    requests.forEach(kill);
+  } return sweepList = []
+};
 
 
 var initialize = function(err, hosts) {
@@ -67,7 +81,8 @@ var initialize = function(err, hosts) {
     //This connects to the db and checks for new blocks
     setInterval(checkBlocks, 1000);
 
-
+    //Sweep newly blacklisted servers right away
+    setInterval(sweep ,1000);
 
   }
 };
