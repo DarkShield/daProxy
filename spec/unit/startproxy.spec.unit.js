@@ -90,7 +90,7 @@ describe('Unit, Start Proxy', function() {
 
     beforeEach(function() {
       updateBlocks = startproxy.__get__('updateBlocks');
-      init_allowed_hosts = {'wwwmattjaycom': {status: 'enabled', blacklist: [{'1.2.3.4': 1000}]}}
+      init_allowed_hosts = {'wwwmattjaycom': {status: 'enabled', blacklist: [{ip: '1.2.3.4', time: 1000}]}}
       startproxy.__set__('allowed_hosts', init_allowed_hosts);
       server = {updateBlacklist: jasmine.createSpy('updateBlacklist')}
       startproxy.__set__('server', server);
@@ -100,17 +100,21 @@ describe('Unit, Start Proxy', function() {
       server = null;
     });
 
-    it('should have a properly functioning updateBlocks method with no error and new ips', function() {
+    it('should have a properly functioning updateBlocks method when there is no db query error', function() {
       expect(typeof(updateBlocks)).toBe('function');
 
       var err = null;
       var hosts = [{
         hostname: 'wwwmattjaycom',
         status: 'enabled',
-        blacklist: [{'1.2.3.4': 1000}, {'9.8.7.6': 1000}]
+        blacklist: [{ip: '1.2.3.4', time: 1000}, {ip: '9.8.7.6', time : 1000}]
       }];
+      var sweepList = startproxy.__get__('sweepList');
+      expect(sweepList.length).toBe(0);
       updateBlocks(err, hosts);
+      sweepList = startproxy.__get__('sweepList')
       expect(server.updateBlacklist).toHaveBeenCalledWith(hosts[0].hostname, hosts[0].blacklist);
+      expect(sweepList.length).toBe(2);
     });
 
   });
