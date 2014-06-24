@@ -51,7 +51,7 @@ var kill = function (req) {
   if (sweepList.indexOf(req.socket.remoteAddress) > -1) {
     req.socket.end();
     requests.splice(requests.indexOf(req),1);
-  };
+  }
 };
 
 var sweep = function() {

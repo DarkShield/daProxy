@@ -152,15 +152,34 @@ describe('Unit, Start Proxy', function() {
       startproxy.__set__('server', server);
     });
 
-    it('should have a properly functioning sweep method when there are no requests', function() {
+    it('should have a properly functioning sweep method when there are requests', function() {
       expect(typeof(sweep)).toBe('function');
-      startproxy.__set__('sweepList', ['1.2.3.4']);
-      var requests = {forEach: jasmine.createSpy('forEach')};
+      var sweepList = ['1.2.3.4'];
+      startproxy.__set__('sweepList', sweepList);
+      var requests = [{test: 'something'}];
+      spyOn(requests, 'forEach');
       spyOn(server, 'getRequests').andReturn(requests);
       sweep();
+      sweepList = startproxy.__get__('sweepList');
+      expect(server.getRequests).toHaveBeenCalled();
+      expect(requests.forEach).toHaveBeenCalled();
+      expect(sweepList.length).toBe(0);
+    });
+
+    it('should have a properly functioning sweep method when there are no requests', function() {
+      expect(typeof(sweep)).toBe('function');
+      var sweepList = ['1.2.3.4'];
+      startproxy.__set__('sweepList', sweepList);
+      var requests = [];
+      spyOn(requests, 'forEach');
+      spyOn(server, 'getRequests').andReturn(requests);
+      sweep();
+      sweepList = startproxy.__get__('sweepList');
       expect(server.getRequests).toHaveBeenCalled();
       expect(requests.forEach).not.toHaveBeenCalled();
+      expect(sweepList.length).toBe(0);
     });
+
   });
 
   it('should have a properly functioning initialize method', function() {
