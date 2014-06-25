@@ -87,6 +87,11 @@ describe('Unit, Proxyserver', function() {
     expect(remoteIP).toBe('1.2.3.4');
   });
 
+  it('should have a functioning checkBlacklist method', function() {
+    var checkBlacklist = proxy.__get__('checkBlacklist');
+    expect(typeof(checkBlacklist)).toBe('function');
+  });
+
   it('should have a functioning setRemoteIP method when not forwarded', function() {
     var setRemoteIP = proxy.__get__('setRemoteIP');
     var request = {
