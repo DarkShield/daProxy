@@ -87,9 +87,93 @@ describe('Unit, Proxyserver', function() {
     expect(remoteIP).toBe('1.2.3.4');
   });
 
-  it('should have a functioning checkBlacklist method', function() {
-    var checkBlacklist = proxy.__get__('checkBlacklist');
-    expect(typeof(checkBlacklist)).toBe('function');
+  describe('checkBlacklist', function() {
+    var allowed_hosts;
+
+    beforeEach(function() {
+      allowed_hosts = null;
+    });
+
+    it('should return true when ip is blacklisted and request has been forwarded', function() {
+      var checkBlacklist = proxy.__get__('checkBlacklist');
+      expect(typeof(checkBlacklist)).toBe('function');
+
+      var request = {
+        headers : {
+          host: 'www.mattjay.com',
+          'x-forwarded-for' : '1.2.3.4'
+        }
+      };
+      allowed_hosts = {
+        'wwwmattjaycom': {
+          blacklist : [{ip: '9.8.7.6', time: '1000'}, {ip: '1.2.3.4', time: '1000'}]
+        }
+      };
+      proxy.__set__('Allowed_hosts', allowed_hosts);
+      expect(checkBlacklist(request)).toBe(true);
+    });
+
+    it('should return false when ip is not blacklisted and request has been forwarded', function() {
+      var checkBlacklist = proxy.__get__('checkBlacklist');
+      expect(typeof(checkBlacklist)).toBe('function');
+
+      var request = {
+        headers : {
+          host: 'www.mattjay.com',
+          'x-forwarded-for' : '1.2.3.4'
+        }
+      };
+      allowed_hosts = {
+        'wwwmattjaycom': {
+          blacklist : [{ip: '9.8.7.6', time: '1000'}]
+        }
+      };
+      proxy.__set__('Allowed_hosts', allowed_hosts);
+      expect(checkBlacklist(request)).toBe(false);
+    });
+
+    it('should return true when ip is blacklisted and request has not been forwarded', function() {
+      var checkBlacklist = proxy.__get__('checkBlacklist');
+      expect(typeof(checkBlacklist)).toBe('function');
+
+      var request = {
+        headers : {
+          host: 'www.mattjay.com'
+        },
+        connection : {
+          remoteAddress: '1.2.3.4'
+        }
+      };
+      allowed_hosts = {
+        'wwwmattjaycom': {
+          blacklist : [{ip: '9.8.7.6', time: '1000'},{ip: '1.2.3.4', time: '1000'}]
+        }
+      };
+      proxy.__set__('Allowed_hosts', allowed_hosts);
+      expect(checkBlacklist(request)).toBe(true);
+    });
+
+    it('should return false when ip is not blacklisted and request has not been forwarded', function() {
+      var checkBlacklist = proxy.__get__('checkBlacklist');
+      expect(typeof(checkBlacklist)).toBe('function');
+
+      var request = {
+        headers : {
+          host: 'www.mattjay.com'
+        },
+        connection : {
+          remoteAddress: '1.2.3.4'
+        }
+      };
+      allowed_hosts = {
+        'wwwmattjaycom': {
+          blacklist : [{ip: '9.8.7.6', time: '1000'}]
+        }
+      };
+      proxy.__set__('Allowed_hosts', allowed_hosts);
+      expect(checkBlacklist(request)).toBe(false);
+    });
+
   });
 
   it('should have a functioning setRemoteIP method when not forwarded', function() {
