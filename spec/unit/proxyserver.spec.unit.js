@@ -220,8 +220,6 @@ describe('Unit, Proxyserver', function() {
     proxy.__set__('Allowed_hosts', allowed_hosts);
     proxy.__set__('Proxy', {web: jasmine.createSpy('test')});
     var Proxy = proxy.__get__('Proxy');
-    //spyOn(Proxy, 'web');
-    //spyOn(request, 'on');
 
     handleRequest(request, response);
     expect(setRemoteIP).toHaveBeenCalled();
@@ -256,8 +254,6 @@ describe('Unit, Proxyserver', function() {
       }
     };
     proxy.__set__('Allowed_hosts', allowed_hosts);
-    //spyOn(response, 'writeHead');
-    //spyOn(response, 'end');
 
     handleRequest(request, response);
     expect(response.writeHead).toHaveBeenCalled();
@@ -285,8 +281,6 @@ describe('Unit, Proxyserver', function() {
       }
     };
     proxy.__set__('Allowed_hosts', allowed_hosts);
-    //spyOn(response, 'writeHead');
-    //spyOn(response, 'end');
 
     handleRequest(request, response);
     expect(response.writeHead).toHaveBeenCalled();
