@@ -192,6 +192,9 @@ describe('Unit, Proxyserver', function() {
     var request = {
       headers: {host: 'www.mattjay.com'},
       url: '/',
+      connection : {
+        remoteAddress : '1.2.3.4'
+      },
       on: jasmine.createSpy('test')
     };
     var response = {
@@ -208,7 +211,13 @@ describe('Unit, Proxyserver', function() {
     proxy.__set__('appendData', appendData);
     var attackCheckOnEnd = jasmine.createSpy('attackCheckOnEnd');
     proxy.__set__('attackCheckOnEnd', attackCheckOnEnd);
-    proxy.__set__('Allowed_hosts', {wwwmattjaycom: 'enabled'});
+    var allowed_hosts = {
+      'wwwmattjaycom': {
+        blacklist : [{ip: '9.8.7.6', time: '1000'}],
+        status: 'enabled'
+      }
+    };
+    proxy.__set__('Allowed_hosts', allowed_hosts);
     proxy.__set__('Proxy', {web: jasmine.createSpy('test')});
     var Proxy = proxy.__get__('Proxy');
     //spyOn(Proxy, 'web');
@@ -226,10 +235,13 @@ describe('Unit, Proxyserver', function() {
     expect(Proxy.web).toHaveBeenCalledWith(request, response, {target: 'http://www.mattjay.com:80/'});
   });
 
-  it('should have a functioning handleRequest method when host is not allowed', function() {
+  it('should have a functioning handleRequest method when host is not enabled', function() {
     var request = {
       headers: {host: 'www.google.com'},
       url: 'www.google.com/',
+      connection : {
+        remoteAddress : '1.2.3.4'
+      },
       on: jasmine.createSpy('test')
     };
     var response = {
@@ -237,7 +249,42 @@ describe('Unit, Proxyserver', function() {
       end: jasmine.createSpy('test')
     };
     var handleRequest = proxy.__get__('handleRequest');
-    proxy.__set__('Allowed_hosts', {'wwwmattjaycom': 'enabled'});
+    var allowed_hosts = {
+      'wwwmattjaycom': {
+        blacklist : [{ip: '9.8.7.6', time: '1000'}],
+        status: 'enabled'
+      }
+    };
+    proxy.__set__('Allowed_hosts', allowed_hosts);
+    //spyOn(response, 'writeHead');
+    //spyOn(response, 'end');
+
+    handleRequest(request, response);
+    expect(response.writeHead).toHaveBeenCalled();
+    expect(response.end).toHaveBeenCalled();
+  });
+
+  it('should have a functioning handleRequest method when host is blacklisted', function() {
+    var request = {
+      headers: {host: 'www.mattjay.com'},
+      url: 'www.mattjay.com/',
+      connection : {
+        remoteAddress : '1.2.3.4'
+      },
+      on: jasmine.createSpy('test')
+    };
+    var response = {
+      writeHead: jasmine.createSpy('test'),
+      end: jasmine.createSpy('test')
+    };
+    var handleRequest = proxy.__get__('handleRequest');
+    var allowed_hosts = {
+      'wwwmattjaycom': {
+        blacklist : [{ip: '9.8.7.6', time: '1000'}, {ip: '1.2.3.4', time: '1000'}],
+        status: 'enabled'
+      }
+    };
+    proxy.__set__('Allowed_hosts', allowed_hosts);
     //spyOn(response, 'writeHead');
     //spyOn(response, 'end');
 
