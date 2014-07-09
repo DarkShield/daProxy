@@ -9,11 +9,26 @@ var port = 8080;
 var verbose = true;
 var res;
 var allowed_hosts = {
-  urbanhydroorg:'enabled',
-  wwwurbanhydroorg: 'enabled',
-  wwwsupercropperscom: 'enabled',
-  supercropperscom:'enabled',
-  wwwyourbrainprojectcom:'enabled'
+  urbanhydroorg: {
+    status: 'enabled',
+    blacklist:[]
+  },
+  wwwurbanhydroorg: {
+    status: 'enabled',
+    blacklist:[]
+  },
+  wwwsupercropperscom: {
+    status: 'enabled',
+    blacklist:[]
+  },
+  supercropperscom:{
+    status: 'enabled',
+    blacklist:[]
+  },
+  wwwyourbrainprojectcom:{
+    status: 'enabled',
+    blacklist:[]
+  }
 };
 
 /**Start a socket.io server to connect to in tests
@@ -76,7 +91,7 @@ describe('End 2 End, Proxyserver', function() {
 
   afterEach(function() {
     server.stopServer();
-  })
+  });
 
   it('should be a function', function() {
     expect(typeof(createServer)).toBe('function');

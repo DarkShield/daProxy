@@ -65,7 +65,9 @@ var sweep = function() {
 var initialize = function(err, hosts) {
   if(!err) {
     for (var i = 0; i < hosts.length; i++) {
-      allowed_hosts[hosts[i].hostname] = hosts[i].status;
+      allowed_hosts[hosts[i].hostname]= {
+        status: hosts[i].status
+      };
     }
 
     var proxy = httpProxy.createProxyServer();

@@ -270,6 +270,7 @@ describe('Unit, Proxyserver', function() {
       on: jasmine.createSpy('test')
     };
     var response = {
+      setHeader: jasmine.createSpy('test'),
       writeHead: jasmine.createSpy('test'),
       end: jasmine.createSpy('test')
     };
@@ -281,6 +282,8 @@ describe('Unit, Proxyserver', function() {
       }
     };
     proxy.__set__('Allowed_hosts', allowed_hosts);
+    var p = {web:jasmine.createSpy('web')};
+    proxy.__set__('Proxy', p);
 
     handleRequest(request, response);
     expect(response.writeHead).toHaveBeenCalled();

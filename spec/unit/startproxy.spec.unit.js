@@ -68,7 +68,8 @@ describe('Unit, Start Proxy', function() {
   });
 
   it('should connect to the proper db and port when no env exists', function() {
-
+    var env = '';
+    startproxy.__set__('env', env);
     expect(mockMongoose.connect).not.toHaveBeenCalled();
     startproxy();
     expect(mockMongoose.connect).toHaveBeenCalledWith('10.136.20.210', 'proxytest');
@@ -203,7 +204,7 @@ describe('Unit, Start Proxy', function() {
     initialize(err, hosts);
     expect(httpProxy.createProxyServer).toHaveBeenCalled();
     expect(obj.createServer).toHaveBeenCalled();
-    expect(obj.createServer.mostRecentCall.args[1]).toEqual({'wwwmattjaycom': 'enabled'});
+    expect(obj.createServer.mostRecentCall.args[1]).toEqual({ wwwmattjaycom : { status : 'enabled' } } );
     expect(obj.createServer.mostRecentCall.args[2]).toEqual(8080);
     expect(startServer).toHaveBeenCalled();
 
