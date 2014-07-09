@@ -209,7 +209,7 @@ describe('End 2 End, Proxyserver', function() {
     }, "Response", 10000);
   });
 
-  it('gets a correct response from supercroppers', function() {
+  xit('gets a correct response from supercroppers', function() {
     runs(function() {
       res = null;
       request({
