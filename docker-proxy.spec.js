@@ -61,7 +61,7 @@ describe('Proxyserver', function() {
     }, "There should be a response", 10000);
 
     runs(function(){
-      expect(result.statusCode).toBe(301);
+      expect(result.statusCode).toBe(406);
     });
   });
 
@@ -89,7 +89,7 @@ describe('Proxyserver', function() {
     }, "There should be a response", 5000);
 
     runs(function(){
-      expect(result.statusCode).toBe(301);
+      expect(result.statusCode).toBe(302);
     });
   });
 
@@ -117,7 +117,7 @@ describe('Proxyserver', function() {
     }, "There should be a response", 10000);
 
     runs(function(){
-      expect(result.statusCode).toBe(200);
+      expect(result.statusCode).toBe(406);
     });
   });
 
@@ -145,7 +145,7 @@ describe('Proxyserver', function() {
     }, "There should be a response", 5000);
 
     runs(function(){
-      expect(result.statusCode).toBe(200);
+      expect(result.statusCode).toBe(302);
     });
   });
 
@@ -174,7 +174,7 @@ describe('Proxyserver', function() {
     }, "There should be a response", 5000);
 
     runs(function(){
-      expect(result.statusCode).toBe(200);
+      expect(result.statusCode).toBe(404);
     });
   });
 
@@ -232,7 +232,7 @@ describe('Proxyserver', function() {
     }, "There should be a response", 5000);
 
     runs(function(){
-      expect(result.statusCode).toBe(404);
+      expect(result.statusCode).toBe(406);
     });
   });
 
@@ -264,7 +264,7 @@ describe('Proxyserver', function() {
     }, "There should be a response", 5000);
 
     runs(function(){
-      expect(result.statusCode).toBe(301);
+      expect(result.statusCode).toBe(404);
     });
   });
 
