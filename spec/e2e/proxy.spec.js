@@ -9,11 +9,11 @@ var port = 8080;
 var verbose = true;
 var res;
 var allowed_hosts = {
-  urbanhydroorg: {
+  mattjaycom: {
     status: 'enabled',
     blacklist:[]
   },
-  wwwurbanhydroorg: {
+  wwwmattjaycom: {
     status: 'enabled',
     blacklist:[]
   },
@@ -108,16 +108,16 @@ describe('End 2 End, Proxyserver', function() {
     expect(typeof(server.stopServer)).toBe('function');
   });
 
-  it('can request supercroppers', function() {
+  it('can request mattjay.comnpm ', function() {
     runs(function() {
       res = null;
       request({
         method: 'GET',
-        uri: 'http://www.supercroppers.com',
+        uri: 'http://www.mattjay.com',
         proxy: 'http://localhost:8080',
         followRedirect: false
       }, function(e, r, b) {
-        expect(r.statusCode).toBe(200);
+        expect(r.statusCode).toBe(302);
         expect(r.headers['set-cookie']).toBeDefined();
         expect(r.headers['set-cookie'][0]).toMatch(/dstc/);
         res = r;
