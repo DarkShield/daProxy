@@ -204,7 +204,7 @@ describe('Unit, Start Proxy', function() {
     initialize(err, hosts);
     expect(httpProxy.createProxyServer).toHaveBeenCalled();
     expect(obj.createServer).toHaveBeenCalled();
-    expect(obj.createServer.mostRecentCall.args[1]).toEqual({ wwwmattjaycom : { status : 'enabled' } } );
+    expect(obj.createServer.mostRecentCall.args[1]).toEqual({ wwwmattjaycom : { status : 'enabled', blacklist:[] } } );
     expect(obj.createServer.mostRecentCall.args[2]).toEqual(8080);
     expect(startServer).toHaveBeenCalled();
 

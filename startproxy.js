@@ -30,11 +30,15 @@ module.exports = function dbConnect() {
 var updateBlocks = function(err, hosts) {
   if(!err) {
     for(var i = 0; i < hosts.length; i++) {
-      //update the blacklist in proxyserver for each host
-      server.updateBlacklist(hosts[i].hostname, hosts[i].blacklist);
-      for (var t = 0; t < hosts[i].blacklist.length; t++) {
+      var blacklist = (hosts[i].blacklist) ? hosts[i].blacklist : []
+      allowed_hosts[hosts[i].hostname]= {
+        status: hosts[i].status,
+        blacklist: blacklist
+      };
+      server.updateBlacklist(hosts[i].hostname, blacklist);
+      for (var t = 0; t < blacklist.length; t++) {
         //push ips to sweeplist
-        sweepList.push(hosts[i].blacklist[t].ip);
+        sweepList.push(blacklist[t].ip);
       }
     }
   }
@@ -66,7 +70,8 @@ var initialize = function(err, hosts) {
   if(!err) {
     for (var i = 0; i < hosts.length; i++) {
       allowed_hosts[hosts[i].hostname]= {
-        status: hosts[i].status
+        status: hosts[i].status,
+        blacklist: (hosts[i].blacklist) ? hosts[i].blacklist : []
       };
     }
 
