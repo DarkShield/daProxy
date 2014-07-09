@@ -1,3 +1,3 @@
-var start = require('startproxy.js');
+var start = require('./startproxy.js');
 
 start();
