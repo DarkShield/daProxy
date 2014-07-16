@@ -1,21 +1,28 @@
 {
-    "name": "DarkShieldProxyServer"
-  , "description": "Top Secret"
-  , "version": "0.0.1"
-  , "private": true
-  , "author": "Mattjay & ProZachJ"
-  , "dependencies": {
-      "mongoose": "3.8.0"
-    , "request": "2.27.0"
-    , "pm2": "0.6.8"
-    , "newrelic": "latest"
-  }
-  , "devDependencies": {
-      "jasmine-node": "latest",
-      "jasmine-reporters": "~0.4"
-  }
-  , "scripts":{
-      "start": "./node_modules/pm2/bin/pm2 start startproxy.js -i max -u root && ./node_modules/pm2/bin/pm2 logs"
-    , "test": "jasmine-node ./spec"
+  "name": "DarkShieldProxyServer",
+  "description": "Top Secret",
+  "version": "0.2.0",
+  "private": true,
+  "author": "Mattjay & ProZachJ",
+  "dependencies": {
+    "http-proxy": "1.0.1",
+    "mongoose": "3.8.0",
+    "newrelic": "latest",
+    "pm2": "0.6.8",
+    "request": "2.27.0",
+    "uuid": "1.4.1"
+  },
+  "devDependencies": {
+    "grunt": "0.4.5",
+    "grunt-contrib-watch": "0.6.1",
+    "grunt-jasmine-node": "0.2.1",
+    "grunt-jasmine-node-coverage-validation": "0.0.4",
+    "jasmine-node": "1.7.1",
+    "jasmine-reporters": "~0.4",
+    "rewire": "2.0.1"
+  },
+  "scripts": {
+    "start": "./node_modules/pm2/bin/pm2 start app.js -i max -u root && ./node_modules/pm2/bin/pm2 logs",
+    "test": "grunt test:unit && jasmine-node spec/ --forceexit"
   }
 }

@@ -1,8 +1,8 @@
-var inspect = require('../lib/waf/inspectors/inspect');
-var xss = require('../lib/waf/inspectors/xss');
-var sqli = require('../lib/waf/inspectors/sqli');
-var dirTrav = require('../lib/waf/inspectors/dirTrav');
-var rce = require('../lib/waf/inspectors/rce');
+var inspect = require('../../lib/waf/inspectors/inspect');
+var xss = require('../../lib/waf/inspectors/xss');
+var sqli = require('../../lib/waf/inspectors/sqli');
+var dirTrav = require('../../lib/waf/inspectors/dirTrav');
+var rce = require('../../lib/waf/inspectors/rce');
 
 describe('Inspect Function', function() {
 
@@ -26,6 +26,16 @@ describe('Inspect Function', function() {
 
   it('should return a match object when passed a script tag in URL', function() {
     var reqObj = {url: 'http://www.example.com?q=<script>', body: ''};
+    var result = inspect(reqObj, xss);
+
+    expect(result.type).toBe('XSS');
+    expect(result.ids[0]).toBe(1);
+    expect(result.matches[0][0]).toBe('<script>');
+    expect(result.score).toBe(10);
+  });
+
+  it('should return a match object when passed a script tag in POST body', function() {
+    var reqObj = {url: 'http://www.example.com', body: 'q=<script>'};
     var result = inspect(reqObj, xss);
 
     expect(result.type).toBe('XSS');

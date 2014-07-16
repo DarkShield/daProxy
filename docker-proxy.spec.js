@@ -8,13 +8,13 @@ console.log('running');
 
 describe('Proxyserver', function() {
 
-  it('can request urbanhydro', function() {
+  it('can request mattjay.com', function() {
     var gotRes = false;
     var result = {};
     runs(function() {
       request({
         method: 'GET',
-        uri: 'http://urbanhydro.org',
+        uri: 'http://www.mattjay.com',
         proxy: 'http://localhost:'+port,
         followRedirect: false
       }, function(e, r) {
@@ -32,18 +32,18 @@ describe('Proxyserver', function() {
     }, "There should be a response", 10000);
 
     runs(function(){
-      expect(result.statusCode).toBe(200);
+      expect(result.statusCode).toBe(302);
     });
   });
 
-  it('gets the correct response from urbanhydro with an xss', function() {
+  it('gets the correct response from mattjay.com with an xss', function() {
     var querystring = 'test=<script>';
     var gotRes = false;
     var result = {};
     runs(function() {
       request({
         method: 'GET',
-        uri: 'http://www.urbanhydro.org/?' + querystring,
+        uri: 'http://www.mattjay.com/?' + querystring,
         proxy: 'http://localhost:'+port,
         followRedirect: false
       }, function(e, r) {
@@ -61,7 +61,7 @@ describe('Proxyserver', function() {
     }, "There should be a response", 10000);
 
     runs(function(){
-      expect(result.statusCode).toBe(301);
+      expect(result.statusCode).toBe(406);
     });
   });
 
@@ -89,17 +89,17 @@ describe('Proxyserver', function() {
     }, "There should be a response", 5000);
 
     runs(function(){
-      expect(result.statusCode).toBe(301);
+      expect(result.statusCode).toBe(302);
     });
   });
 
-  it('gets a correct response from urbanhydro with SQLi', function() {
+  it('gets a correct response from www.mattjay.com with SQLi', function() {
     var gotRes = false;
     var result = {};
     runs(function() {
       request({
         method: 'GET',
-        uri: "http://urbanhydro.org/?test='OR+1=1",
+        uri: "http://www.mattjay.com/?test='OR+1=1",
         proxy: 'http://localhost:'+port,
         followRedirect: false
       }, function(e, r) {
@@ -117,7 +117,7 @@ describe('Proxyserver', function() {
     }, "There should be a response", 10000);
 
     runs(function(){
-      expect(result.statusCode).toBe(200);
+      expect(result.statusCode).toBe(406);
     });
   });
 
@@ -145,18 +145,18 @@ describe('Proxyserver', function() {
     }, "There should be a response", 5000);
 
     runs(function(){
-      expect(result.statusCode).toBe(200);
+      expect(result.statusCode).toBe(302);
     });
   });
 
-  it('gets a correct response from urbanhydro with an xss and long request', function() {
+  it('gets a correct response from www.mattjay.com with an xss and long request', function() {
     var querystring = 'test=<script>as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;as;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;iaejfwejas;lfknerwv;mfragmv;limvae;lgmervowoaifjera;gjearf;lajr;gaeoiffo;';
     var gotRes = false;
     var result = {};
     runs(function() {
       request({
         method: 'GET',
-        uri: 'http://urbanhydro.org/?' + querystring,
+        uri: 'http://www.mattjay.com.org/?' + querystring,
         proxy: 'http://localhost:'+port,
         followRedirect: false
       }, function(e, r) {
@@ -174,7 +174,7 @@ describe('Proxyserver', function() {
     }, "There should be a response", 5000);
 
     runs(function(){
-      expect(result.statusCode).toBe(200);
+      expect(result.statusCode).toBe(404);
     });
   });
 
@@ -206,13 +206,13 @@ describe('Proxyserver', function() {
     });
   });
 
-  it('gets a correct response form urbanhydro with a POST request xss', function() {
+  it('gets a correct response form www.mattjay.com with a POST request xss', function() {
     var gotRes = false;
     var result = {};
     runs(function() {
       request({
         method: 'POST',
-        uri: 'http://urbanhydro.org/jimmie',
+        uri: 'http://www.mattjay.com/jimmie',
         headers: {'cookie': 'dstc=123456; weirdcookie=something%C4%97%'},
         body: 'teset',
         proxy: 'http://localhost:'+port,
@@ -232,7 +232,7 @@ describe('Proxyserver', function() {
     }, "There should be a response", 5000);
 
     runs(function(){
-      expect(result.statusCode).toBe(404);
+      expect(result.statusCode).toBe(406);
     });
   });
 
@@ -244,7 +244,7 @@ describe('Proxyserver', function() {
     runs(function() {
       request({
         method: 'POST',
-        uri: 'http://www.urbanhydro.org/jimmie',
+        uri: 'http://www.mattjay.com.org/jimmie',
         proxy: 'http://localhost:'+port,
         headers: {'cookie': 'dstc=123456; weirdcookie=something%C4%97%'},
         body: body,
@@ -264,7 +264,7 @@ describe('Proxyserver', function() {
     }, "There should be a response", 5000);
 
     runs(function(){
-      expect(result.statusCode).toBe(301);
+      expect(result.statusCode).toBe(404);
     });
   });
 
