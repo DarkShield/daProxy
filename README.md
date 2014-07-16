@@ -49,7 +49,7 @@ exit $result
 ```bash
 #must have 127.0.0.1 darkdocker.darkshield.io in /etc/hosts
 
-docker tag proxy darkdocker.darkshield.io:49154/proxy
-docker push darkdocker.darkshield.io:49154/proxy
+docker tag proxy darkdocker.darkshield.io:5000/proxy
+docker push darkdocker.darkshield.io:5000/proxy
 ```
 
