@@ -30,7 +30,7 @@ module.exports = function dbConnect() {
 var updateBlocks = function(err, hosts) {
   if(!err) {
     for(var i = 0; i < hosts.length; i++) {
-      var blacklist = (hosts[i].blacklist) ? hosts[i].blacklist : []
+      var blacklist = (hosts[i].blacklist) ? hosts[i].blacklist : [];
       allowed_hosts[hosts[i].hostname]= {
         status: hosts[i].status,
         blacklist: blacklist
@@ -74,7 +74,6 @@ var initialize = function(err, hosts) {
         blacklist: (hosts[i].blacklist) ? hosts[i].blacklist : []
       };
     }
-
     var proxy = httpProxy.createProxyServer();
     server = createServer(proxy, allowed_hosts, port);
 
