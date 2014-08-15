@@ -18,7 +18,6 @@ module.exports = function dbConnect() {
     }
   }
   else if (env === 'production'){
-    require('newrelic');
     mongoose.connect('10.136.20.210', 'vicetest');
     port = 80;
   }
