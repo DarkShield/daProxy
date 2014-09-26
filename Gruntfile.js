@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+vmodule.exports = function(grunt) {
 
   grunt.initConfig({
     jasmine_node: {

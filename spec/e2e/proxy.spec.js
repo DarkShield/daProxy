@@ -31,44 +31,6 @@ var allowed_hosts = {
   }
 };
 
-/**Start a socket.io server to connect to in tests
- * Might want to do this in an external file and expose some sort
- * of start and stop socket io server methods.
- * Then in the before and after Each blocks in these tests we could
- * do something like:
- *     beforeEach(function(done) {
-        // Setup
-        socket = io.connect('http://localhost:3001', {
-            'reconnection delay' : 0
-            , 'reopen delay' : 0
-            , 'force new connection' : true
-        });
-        socket.on('connect', function() {
-            console.log('worked...');
-            done();
-        });
-        socket.on('disconnect', function() {
-            console.log('disconnected...');
-        })
-    });
-
- afterEach(function(done) {
-        // Cleanup
-        if(socket.socket.connected) {
-            console.log('disconnecting...');
-            socket.disconnect();
-        } else {
-            // There will not be a connection unless you have done() in beforeEach, socket.on('connect'...)
-            console.log('no connection to break...');
-        }
-        done();
-    });
- */
-
-//What the code to start a socket.io server would look like.
-/*var io = require('socket.io')();
-io.on('connection', function(socket){});
-io.listen(3000);*/
 
 describe('End 2 End, Proxyserver', function() {
 
@@ -94,6 +56,7 @@ describe('End 2 End, Proxyserver', function() {
   });
 
   it('should be a function', function() {
+    console.log('test');
     expect(typeof(createServer)).toBe('function');
   });
 

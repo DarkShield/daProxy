@@ -2,7 +2,7 @@
  * Created by mattjohansen on 12/16/13.
  */
 var request = require('request');
-var port = 5555;
+var port = 8080;
 
 console.log('running');
 
