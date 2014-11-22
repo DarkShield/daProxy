@@ -89,7 +89,7 @@ describe('Proxyserver', function() {
     }, "There should be a response", 5000);
 
     runs(function(){
-      expect(result.statusCode).toBe(302);
+      expect(result.statusCode).toBe(200);
     });
   });
 
@@ -145,7 +145,7 @@ describe('Proxyserver', function() {
     }, "There should be a response", 5000);
 
     runs(function(){
-      expect(result.statusCode).toBe(302);
+      expect(result.statusCode).toBe(200);
     });
   });
 
