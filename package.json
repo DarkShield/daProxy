@@ -7,7 +7,7 @@
   "dependencies": {
     "http-proxy": "1.0.1",
     "mongoose": "3.8.0",
-    "newrelic": "latest",
+    "newrelic": "1.14.0",
     "pm2": "0.6.8",
     "request": "2.27.0",
     "uuid": "1.4.1"
