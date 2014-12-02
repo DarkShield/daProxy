@@ -1,6 +1,7 @@
 FROM  ubuntu:14.04
 
 RUN   apt-get -y update
+RUN   apt-get install curl -y
 RUN   curl -sL https://deb.nodesource.com/setup | sudo bash -
 RUN   apt-get install -y nodejs
 
